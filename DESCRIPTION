@@ -17,7 +17,8 @@ Imports: factoextra,
 	 viridis,
 	 robCompositions,
 	 MutationalPatterns,
-	 interactions
+	 interactions,
+	 GenomeInfoDb
 Depends: R (>= 3.6.1),
 	 GenomicRanges (>= 1.36.1),
 Suggests:
