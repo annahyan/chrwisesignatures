@@ -21,7 +21,7 @@ splitVCFToMutClasses = function(vcffile) {
     svars <- unique(vcffile[[sname]])
     svars <- GenomeInfoDb::keepStandardChromosomes(svars, pruning.mode = "tidy")
     svars <- GenomeInfoDb::keepSeqlevels(svars,
-                                         value = GenomicInfoDb::seqlevelsInUse(svars))
+                                         value = GenomeInfoDb::seqlevelsInUse(svars))
     
     ## Removing multiallelic sites
     
