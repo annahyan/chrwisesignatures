@@ -7,19 +7,21 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+Description: The package provides multiple functions for
+	     mutational signautres analysis in chromosome-level
+	     using robust compositional data analysis.
+License: GPL4
 Encoding: UTF-8
 LazyData: true
-Imports:
-	VariantAnnotation
-	factoextra
-	viridis
-	robCompositions
-	MutationalPatterns
-	interactions
+Imports: VariantAnnotation,
+	 factoextra,
+	 viridis,
+	 robCompositions,
+	 MutationalPatterns,
+	 interactions
+Depends: R (>= 3.6.1),
+	 GenomicRanges (>= 1.36.1),
 Suggests:
-	BSgenome.Hsapiens.UCSC.hg19
-	BSgenome.Hsapiens.UCSC.hg38
-
-
+	BSgenome.Hsapiens.UCSC.hg19,
+	BSgenome.Hsapiens.UCSC.hg38,
+RoxygenNote: 7.0.2
