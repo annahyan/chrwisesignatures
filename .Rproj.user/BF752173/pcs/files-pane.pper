@@ -1,0 +1,9 @@
+{
+    "path" : "~/ClusterHome/chrwiseSignatures",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
