@@ -1,9 +1,17 @@
+#' A function splitting vcf files into SNVs, multinucleotide substitutions and indels
+#'
+#' @examples
+#' splitVCFtoMutClasses(vcf_granges)
+#'
+#' @export
+
+
 splitVCFToMutClasses = function(vcffile) {
   
   snames <- names(vcffile)
   
   indels <- list()
-  SNPs <- list()
+  SNVs <- list()
   multisubs <- list()
   
   for(sname in snames) {
@@ -75,8 +83,10 @@ splitVCFToMutClasses = function(vcffile) {
         } ) )
     
     multisubs[[sname]]  <-  GRanges(multisub_units)
-    SNPs[[sname]]  <-  subsetByOverlaps(svar_nonindels, multisubs[[sname]], invert = TRUE)
+    SNVs[[sname]]  <-  subsetByOverlaps(svar_nonindels, multisubs[[sname]], invert = TRUE)
     
   }
-    return(list(indels = indels, multisubs = multisubs, SNPs = SNPs))
+    return(list(indels = indels, multisubs = multisubs, SNVs = SNVs))
 }
+
+
