@@ -7,7 +7,7 @@
 splitVCFToMutClasses(vcffile)
 }
 \description{
-A function splitting vcf files into SNVs, multinucleotide substitutions and indels
+import GenomeInfoDb
 }
 \examples{
 splitVCFtoMutClasses(vcf_granges)

@@ -1,5 +1,6 @@
 #' A function splitting vcf files into SNVs, multinucleotide substitutions and indels
 #'
+#' import GenomeInfoDb
 #' @examples
 #' splitVCFtoMutClasses(vcf_granges)
 #'
@@ -19,9 +20,9 @@ splitVCFToMutClasses = function(vcffile) {
 
     ## Removing non-canonical chromsomes in sample variants
     svars <- unique(vcffile[[sname]])
-    svars <- GenomeInfoDb::keepStandardChromosomes(svars, pruning.mode = "tidy")
-    svars <- GenomeInfoDb::keepSeqlevels(svars,
-                                         value = GenomeInfoDb::seqlevelsInUse(svars))
+    svars <- keepStandardChromosomes(svars, pruning.mode = "tidy")
+    svars <- keepSeqlevels(svars,
+                                         value = seqlevelsInUse(svars))
     
     ## Removing multiallelic sites
     
@@ -46,7 +47,7 @@ splitVCFToMutClasses = function(vcffile) {
     variant_names  <-  sub( "(.*)_.*", "\\1", names(svars) )
         
     ## exlcude sites with the same starting coordinate
-    invalid_sites  <-  variant.names[which(duplicated(variant_names)) ]
+    invalid_sites  <-  variant_names[which(duplicated(variant_names)) ]
 
     svar_nonindels  <-  svars[ (! variant_names %in% invalid_sites) & 
                                (nchar(svars$REF) == 1 & alt_len == 1), ]
@@ -55,27 +56,28 @@ splitVCFToMutClasses = function(vcffile) {
     
     multisub_units  <-  do.call( 
         rbind, lapply(chr_split, function(chr_ranges) {
-            chrom_name = GenomeInfoDb::seqlevelsInUse(chr_ranges)
+            chrom_name = seqlevelsInUse(chr_ranges)
             chr_ranges = GenomicRanges::as.data.frame(chr_ranges)
             
             
             ## consecutive positions list
-            cons_poss_list  <-  split(chr_ranges$start, f = cumsum(c (0, diff(chr.ranges$start) > 1)) )
-            multinucl_groups  <-  cons.poss.list[ vapply(cons_poss_list, length) > 1 ]
+            cons_poss_list  <-  split(chr_ranges$start, f = cumsum(c (0, diff(chr_ranges$start) > 1)) )
+            multinucl_groups  <-  cons_poss_list[ vapply(cons_poss_list,
+                                                         length, numeric(1)) > 1 ]
             
             do.call(rbind, lapply ( multinucl_groups, function(x) { 
                 df_rr  <-  chr_ranges[ paste0(chrom_name, ":", x, "_"), ]
                 
                 ret_df = data.frame(
-                    seqnames = unique(df.rr$seqnames), 
-                    start = min(df.rr$start),
-                    end = max(df.rr$end),
-                    width = nrow(df.rr),
+                    seqnames = unique(df_rr$seqnames), 
+                    start = min(df_rr$start),
+                    end = max(df_rr$end),
+                    width = nrow(df_rr),
                     strand = "*",
-                    paramRangeID = unique(df.rr$paramRangeID),
-                    REF = paste0(df.rr$REF, collapse = ""),
-                    ALT = paste0(df.rr$ALT, collapse = ""),
-                    QUAL = min(df.rr$QUAL),
+                    paramRangeID = unique(df_rr$paramRangeID),
+                    REF = paste0(df_rr$REF, collapse = ""),
+                    ALT = paste0(df_rr$ALT, collapse = ""),
+                    QUAL = min(df_rr$QUAL),
                     FILTER = ".")
                 return(df_rr)
             } ) 
