@@ -11,7 +11,7 @@
 #' @export
 
 
-splitVCFToMutClasses = function(vcffile, n_cores) {
+splitVCFToMutClasses <- function(vcffile, n_cores) {
     
     snames <- names(vcffile)
     

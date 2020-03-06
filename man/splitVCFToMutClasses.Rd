@@ -4,10 +4,13 @@
 \alias{splitVCFToMutClasses}
 \title{A function splitting vcf files into SNVs, multinucleotide substitutions and indels}
 \usage{
-splitVCFToMutClasses(vcffile)
+splitVCFToMutClasses(vcffile, n_cores)
 }
 \description{
 import GenomeInfoDb
+import parallel detectCores
+import parallel mclapply
+import dplyr bind_rows
 }
 \examples{
 splitVCFtoMutClasses(vcf_granges)
