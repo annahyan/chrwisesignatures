@@ -2,8 +2,8 @@
 % Please edit documentation in R/generic_functions.R
 \name{split_chr}
 \alias{split_chr}
-\title{The function splits GRangesList files of samples into into GRangesList
-for individual chromosomes}
+\title{The function splits GRangesList files of samples into list of GRangesList
+for individual chromosomes in samples}
 \usage{
 split_chr(vcf_granges_list, n_cores)
 }
@@ -11,5 +11,6 @@ split_chr(vcf_granges_list, n_cores)
 import GenomeInfoDb
 import parallel detectCores
 import parallel mclapply
-import dplyr bind_rows
+import GenomicFeatures getChromInfoFromUCSC
+import data.table
 }
