@@ -37,7 +37,7 @@ split_chr <- function(vcf_granges_list, n_cores) {
                            }
                            
                            ## splits into chromosomes
-                           return(split(svars, seqnames(svars)))
+                           return(split(svars, seqnames(svars) ) )
                        }, 
                        mc.cores = n_cores),
                        snames)
@@ -68,13 +68,13 @@ count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
     counts_list <- lapply(chr_split_grangeslist,
                           function(sample_chr) {
                               sapply(sample_chr, length)
-                          })
+                          } )
     counts_matrix  <- do.call(rbind, counts_list)
 
     if (chr.norm) {
         chroms  <- colnames(counts_matrix)
 
-        genome_assembly  <- genome(chr_split_grangeslist[[1]])[[1]]
+        genome_assembly  <- genome(chr_split_grangeslist[[1]] [[1]])[[1]]
 
         chrom_sizes  <-  getChromInfoFromUCSC(genome_assembly)
         chrom_sizes  <-  data.table(chrom_sizes)
@@ -127,9 +127,7 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
         facet_wrap ( ~ KO) +
         theme_bw() +
         theme(axis.text.x = element_text(angle = 90))
-    
     return(p)
-    
 }
 
 
