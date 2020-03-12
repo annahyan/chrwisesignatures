@@ -6,6 +6,15 @@
 #' @importFrom parallel mclapply
 #' @importFrom GenomicFeatures getChromInfoFromUCSC
 #' @import data.table
+#' @import ggplot2
+
+
+
+
+
+#'Whatever text goes here
+#'
+#'
 #'
 #' 
 #' @export
@@ -55,9 +64,6 @@ split_chr <- function(vcf_granges_list, n_cores) {
 #' columns. Counts can be normalized for chromosome lengths with
 #' chr.norm = TRUE argument.
 #'
-#' @import GenomeInfoDb
-#' @importFrom parallel detectCores
-#' @importFrom parallel mclapply
 #'
 #' 
 #' @export
@@ -74,7 +80,7 @@ count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
     if (chr.norm) {
         chroms  <- colnames(counts_matrix)
 
-        genome_assembly  <- genome(chr_split_grangeslist[[1]] [[1]])[[1]]
+        genome_assembly  <- GenomeInfoDb::genome(chr_split_grangeslist [[1]]  [[1]] ) [[1]]
 
         chrom_sizes  <-  getChromInfoFromUCSC(genome_assembly)
         chrom_sizes  <-  data.table(chrom_sizes)
@@ -101,7 +107,6 @@ Quitting... ")
 #' Plot chromosome-wise counts with KOs as facets, colored conditions
 #' and grouped for clones
 #'
-#' @import ggplot2
 #' 
 #' 
 #' @export
@@ -134,8 +139,6 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
 #' Get mutational matrix in trinucleotide context for individual chromsomes
 #' 
 #'
-#' 
-#' @import ggplot2
 #' 
 #' 
 #' @export
