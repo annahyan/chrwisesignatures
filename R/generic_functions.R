@@ -143,5 +143,4 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
 #' @export
 
 mut_matrix_chr = function() {
-    
 }
