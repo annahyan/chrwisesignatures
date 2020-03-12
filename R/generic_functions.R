@@ -125,7 +125,7 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
     dt.gg$sample  <-  paste(dt.gg$KO, dt.gg$treatment, dt.gg$clones, sep ="_")
 
 
-    p  <-  ggplot(a.gg, aes(x = variable, y = value, color = treatment,
+    p  <-  ggplot(dt.gg, aes(x = variable, y = value, color = treatment,
                          group = sample) ) +
         geom_line() +
         geom_point() +
