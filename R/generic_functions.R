@@ -12,7 +12,7 @@
 
 
 
-#' chrwiseSignatures
+#' 
 #'
 #'
 #'
