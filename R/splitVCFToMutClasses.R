@@ -1,9 +1,9 @@
 #' A function splitting vcf files into SNVs, multinucleotide substitutions and indels
 #'
-#' import GenomeInfoDb
-#' import parallel detectCores
-#' import parallel mclapply
-#' import dplyr bind_rows
+#' @import GenomeInfoDb
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
+#' @importFrom dplyr bind_rows
 #'
 #' @examples
 #' splitVCFtoMutClasses(vcf_granges)

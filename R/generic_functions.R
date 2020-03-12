@@ -1,11 +1,11 @@
 #' The function splits GRangesList files of samples into list of GRangesList
 #' for individual chromosomes in samples
 #'
-#' import GenomeInfoDb
-#' import parallel detectCores
-#' import parallel mclapply
-#' import GenomicFeatures getChromInfoFromUCSC
-#' import data.table
+#' @import GenomeInfoDb
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
+#' @importFrom GenomicFeatures getChromInfoFromUCSC
+#' @import data.table
 #'
 #' 
 #' @export

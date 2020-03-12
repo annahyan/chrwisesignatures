@@ -7,10 +7,7 @@
 splitVCFToMutClasses(vcffile, n_cores)
 }
 \description{
-import GenomeInfoDb
-import parallel detectCores
-import parallel mclapply
-import dplyr bind_rows
+A function splitting vcf files into SNVs, multinucleotide substitutions and indels
 }
 \examples{
 splitVCFtoMutClasses(vcf_granges)

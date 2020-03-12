@@ -8,9 +8,6 @@ for individual chromosomes in samples}
 split_chr(vcf_granges_list, n_cores)
 }
 \description{
-import GenomeInfoDb
-import parallel detectCores
-import parallel mclapply
-import GenomicFeatures getChromInfoFromUCSC
-import data.table
+The function splits GRangesList files of samples into list of GRangesList
+for individual chromosomes in samples
 }
