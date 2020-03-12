@@ -12,7 +12,7 @@
 
 
 
-#'Whatever text goes here
+#' chrwiseSignatures
 #'
 #'
 #'
