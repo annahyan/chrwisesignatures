@@ -8,5 +8,6 @@ and grouped for clones}
 plot_chrwise_counts(chr_wise_counts, KOs, treatment, clones)
 }
 \description{
-import ggplot2
+Plot chromosome-wise counts with KOs as facets, colored conditions
+and grouped for clones
 }

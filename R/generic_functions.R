@@ -55,9 +55,9 @@ split_chr <- function(vcf_granges_list, n_cores) {
 #' columns. Counts can be normalized for chromosome lengths with
 #' chr.norm = TRUE argument.
 #'
-#' import GenomeInfoDb
-#' import parallel detectCores
-#' import parallel mclapply
+#' @import GenomeInfoDb
+#' @importFrom parallel detectCores
+#' @importFrom parallel mclapply
 #'
 #' 
 #' @export
@@ -101,7 +101,7 @@ Quitting... ")
 #' Plot chromosome-wise counts with KOs as facets, colored conditions
 #' and grouped for clones
 #'
-#' import ggplot2
+#' @import ggplot2
 #' 
 #' 
 #' @export
@@ -137,7 +137,7 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
 #' 
 #'
 #' 
-#' import ggplot2
+#' @import ggplot2
 #' 
 #' 
 #' @export

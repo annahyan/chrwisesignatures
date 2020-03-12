@@ -10,7 +10,8 @@ chr.norm = TRUE argument.}
 count_chr_variants(chr_split_grangeslist, chr.norm = TRUE)
 }
 \description{
-import GenomeInfoDb
-import parallel detectCores
-import parallel mclapply
+This function counts number of variants across samples and chromosomes.
+The function outputs a matrix with samples as rows and chromosomes as
+columns. Counts can be normalized for chromosome lengths with
+chr.norm = TRUE argument.
 }

@@ -9,6 +9,3 @@ mut_matrix_chr()
 \description{
 Get mutational matrix in trinucleotide context for individual chromsomes
 }
-\details{
-import ggplot2
-}
