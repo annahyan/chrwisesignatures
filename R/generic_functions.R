@@ -1,12 +1,14 @@
 #' The function splits GRangesList files of samples into list of GRangesList
 #' for individual chromosomes in samples
 #'
+#' @importFrom utils getFromNamespace
 #' @import GenomeInfoDb
 #' @importFrom parallel detectCores
 #' @importFrom parallel mclapply
 #' @importFrom GenomicFeatures getChromInfoFromUCSC
 #' @import data.table
 #' @import ggplot2
+#' @import MutationalPatterns
 
 
 
@@ -33,18 +35,10 @@ split_chr <- function(vcf_granges_list, n_cores) {
     }
     
     out  <- stats::setNames (
-                     
+                       
                        mclapply(snames, function(sname) {
-
+                           
                            svars = vcf_granges_list[[sname]]
-                           
-                           ## Checks if only standard chromosomes are included
-                           if ( ! all(seqlevels(svars) %in% standardChromosomes(svars)) ) {
-                               svars <- keepStandardChromosomes(svars, pruning.mode = "tidy")
-                               svars <- keepSeqlevels(svars,
-                                                      value = seqlevelsInUse(svars))
-                           }
-                           
                            ## splits into chromosomes
                            return(split(svars, seqnames(svars) ) )
                        }, 
@@ -130,10 +124,16 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
         geom_line() +
         geom_point() +
         facet_wrap ( ~ KO) +
-        theme_bw() +
-        theme(axis.text.x = element_text(angle = 90))
+        theme_bw(base_size = 13) +
+        theme(axis.text.x = element_text(angle = 90),
+              )
     return(p)
 }
+
+
+
+mut_96_occurrences  <-  getFromNamespace("mut_96_occurrences", "MutationalPatterns")
+
 
 
 #' Get mutational matrix in trinucleotide context for individual chromsomes
@@ -143,5 +143,43 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
 #' 
 #' @export
 
-mut_matrix_chr = function() {
+
+
+
+mut_matrix_chr = function( chr_split_grangeslist, ref_genome, num_cores) {
+    if (missing(num_cores))
+    {
+        num_cores = detectCores()
+        if (!(.Platform$OS.type == "windows" || is.na(num_cores)))
+            num_cores <- detectCores()
+        else
+            num_cores = 1
+    }
+
+    samples_list <- mclapply (as.list(chr_split_grangeslist), function (sample_chr_vcfs)
+    {
+        sample_chr_rows   <-  lapply (sample_chr_vcfs, function(chr_vcf) {
+            type_context  <-  type_context(chr_vcf, ref_genome)
+            row  <- mut_96_occurrences(type_context)
+            return(row)
+        }
+        )
+
+        df = data.frame()
+
+        ## Merge the rows into a dataframe.
+        for (row in sample_chr_rows)
+        {
+            if (class (row) == "try-error") stop (row)
+            df = rbind (df, row)
+        }
+        
+        colnames(df) = names(row)
+        rownames(df) = names(sample_chr_vcfs)
+        
+        return(df)
+        
+    }, mc.cores = num_cores)
+    
 }
+

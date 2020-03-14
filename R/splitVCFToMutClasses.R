@@ -31,12 +31,6 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
     
     for(sname in snames) {
         cat(sname, "\n")
-
-        ## Removing non-canonical chromsomes in sample variants
-        svars <- unique(vcffile[[sname]])
-        svars <- keepStandardChromosomes(svars, pruning.mode = "tidy")
-        svars <- keepSeqlevels(svars,
-                               value = seqlevelsInUse(svars))
         
         ## Removing multiallelic sites
         

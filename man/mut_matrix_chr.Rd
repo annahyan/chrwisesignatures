@@ -4,7 +4,7 @@
 \alias{mut_matrix_chr}
 \title{Get mutational matrix in trinucleotide context for individual chromsomes}
 \usage{
-mut_matrix_chr()
+mut_matrix_chr(chr_split_grangeslist, ref_genome, num_cores)
 }
 \description{
 Get mutational matrix in trinucleotide context for individual chromsomes
