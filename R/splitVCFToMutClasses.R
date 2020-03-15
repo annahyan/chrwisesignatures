@@ -53,7 +53,7 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
             svars$ALT  <-  as.character(svars$ALT@unlistData)
         }
         
-        indels[[sname]]  <-  svars[ alt_len != nchar(svars$REF), ]
+        indels[[sname]]  <-  svars[ alt_len != width(svars$REF), ]
         
         ## multinucleotide substitutions 
         
