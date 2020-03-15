@@ -63,7 +63,7 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
         invalid_sites  <-  variant_names[which(duplicated(variant_names)) ]
 
         svar_nonindels  <-  svars[ (! variant_names %in% invalid_sites) & 
-                                   (nchar(svars$REF) == 1 & alt_len == 1), ]
+                                   (width(svars$REF) == 1 & alt_len == 1), ]
         
         chr_split  <-  split(svar_nonindels, seqnames(svar_nonindels) )
 
