@@ -41,7 +41,7 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
             if (length(x) > 1) {
                 return(0)
             } else {
-                return ( width( x@unlistData ) )
+                return ( width( x ) )
             } } 
             )
 
