@@ -31,7 +31,9 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
     
     for(sname in snames) {
         cat(sname, "\n")
-        
+
+        svars = vcffile[[sname]]
+
         ## Removing multiallelic sites
         
         alt_len  <-  sapply (svars$ALT, function(x) { 
