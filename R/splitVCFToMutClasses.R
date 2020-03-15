@@ -4,6 +4,7 @@
 #' @importFrom parallel detectCores
 #' @importFrom parallel mclapply
 #' @importFrom dplyr bind_rows
+#' @import GenomicRanges
 #'
 #' @examples
 #' splitVCFtoMutClasses(vcf_granges)
@@ -40,7 +41,7 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
             if (length(x) > 1) {
                 return(0)
             } else {
-                return ( nchar( x[[1]] ) )
+                return ( width( x@unlistData ) )
             } } 
             )
 
