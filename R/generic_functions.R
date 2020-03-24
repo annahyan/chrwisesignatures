@@ -13,7 +13,6 @@
 
 
 
-
 #' 
 #'
 #'
@@ -182,4 +181,156 @@ mut_matrix_chr = function( chr_split_grangeslist, ref_genome, num_cores) {
     }, mc.cores = num_cores)
     
 }
+
+
+
+
+#' Get mutation types from mutational profiles of sample lists
+#' 
+#'
+#' 
+#' 
+#' @export
+
+get_mut_types  <- function( SNV_profiles ) {
+
+    sample_mut_types = list()
+
+    sample_names  <-  names(SNV_profiles)
+
+    for (sample in sample_names) {
+        smat  <- SNV_profiles[[sample]]
+        
+        out  <-  vapply( MUT_TYPES, function(x) 
+            rowSums(smat[,    substr(colnames(smat), 3, 5)== x,drop=FALSE]),
+            numeric(nrow(smat))
+            )
+        sample_mut_types[[sample]] = out
+    }
+    return(sample_mut_types)
+}
+
+
+
+#' Plot CoDa PCA
+#' 
+#'
+#' 
+#' 
+#' @export
+
+
+plot_coda_pca  <-  function(dt_list, sample_classes) {
+
+    plot_material = do.call( rbind,
+                            lapply(names(dt_list),
+                                   function(x) {
+                                       df = dt_list[[x]];
+                                       rownames(df) = paste(x, rownames(df),
+                                                            sep = ":");
+                                       return(df)
+                                   })
+                            )
+
+    sample_types = rep(smp_classes, vapply(dt_list, nrow, numeric(1)))
+
+
+    pca_list = pcaCoDa(plot_material)
+    outliers = outCoDa(plot_material)
+    print(outliers)
+    
+    rob_pca_scores = data.frame(pca_list$scores)
+    rob_pca_scores$col = sample_types
+
+    rownames(rob_pca_scores) = rownames(plot_material)
+
+
+    p = ggplot(rob_pca_scores, aes(x = Comp.1, y = Comp.2, color = col)) + 
+        geom_point(size = 2) +
+        scale_color_brewer(palette = "Set1" ) # 
+#        scale_color_manual(values = sample(CEMM_COLORS_ALL, 9 ) ) # +
+    ## ggtitle(paste0("Rank:", nmf.rank))
+
+
+    pca_loadings = as.data.frame(pca_list$loadings)
+    rownames(pca_loadings) = colnames(plot_material)
+
+    p = p + geom_segment(data = pca_loadings,
+                         aes(x = 0, y = 0, xend = Comp.1 * 2,
+                             yend = Comp.2 * 2),
+                         size = 1, 
+                         arrow = arrow(length = unit(1/2, "picas") ),
+                         color = "black") + 
+        annotate("text", x = pca_loadings$Comp.1 * 2.2,
+                 y = pca_loadings$Comp.2 * 2.2, 
+                 label = rownames(pca_loadings)) +
+        theme_bw() + theme(legend.title = element_blank()) +
+        xlab("PC1") + ylab("PC2")
+    return(p)
+}
+
+
+
+#' Plot classical PCA
+#' 
+#'
+#' 
+#' 
+#' @export
+
+
+plot_pca  <-  function(dt_list, sample_classes) {
+
+    plot_material = do.call( rbind,
+                            lapply(names(dt_list),
+                                   function(x) {
+                                       df = dt_list[[x]];
+                                       rownames(df) = paste(x, rownames(df),
+                                                            sep = ":");
+                                       return(df)
+                                   })
+                            )
+
+    sample_types = rep(smp_classes, vapply(dt_list, nrow, numeric(1)))
+
+
+    pca_list = prcomp(plot_material)
+
+    
+    pca_scores = data.frame(pca_list$x)
+    pca_scores$col = sample_types
+
+    rownames(pca_scores) = rownames(plot_material)
+
+
+    p = ggplot(pca_scores, aes(x = PC1, y = PC2, color = col)) + 
+        geom_point(size = 2) +
+        scale_color_brewer(palette = "Set1" ) # 
+#        scale_color_manual(values = sample(CEMM_COLORS_ALL, 9 ) ) # +
+    ## ggtitle(paste0("Rank:", nmf.rank))
+
+
+    pca_loadings = as.data.frame(pca_list$rotation)
+    rownames(pca_loadings) = colnames(plot_material)
+
+    p = p + geom_segment(data = pca_loadings,
+                         aes(x = 0, y = 0, xend = PC1 * 120,
+                             yend = PC2 * 120),
+                         size = 1, 
+                         arrow = arrow(length = unit(1/2, "picas") ),
+                         color = "black") + 
+        annotate("text", x = pca_loadings$PC1 * 122,
+                 y = pca_loadings$PC2 * 122, 
+                 label = rownames(pca_loadings)) +
+        theme_bw() + theme(legend.title = element_blank()) +
+        xlab ("PC1") + ylab("PC2")
+
+
+    return(p)
+
+}
+
+
+
+
 
