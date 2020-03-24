@@ -9,6 +9,7 @@
 #' @import data.table
 #' @import ggplot2
 #' @import MutationalPatterns
+#' @import robCompositions
 
 
 
