@@ -4,7 +4,7 @@
 \alias{get_mut_types}
 \title{Get mutation types from mutational profiles of sample lists}
 \usage{
-get_mut_types(SNV_profiles)
+get_mut_types(SNV_profiles, perMb = FALSE, genome_assembly)
 }
 \description{
 Get mutation types from mutational profiles of sample lists

@@ -14,6 +14,21 @@
 
 
 
+get_chrom_norm_factors = function(genome_assembly) {
+
+    chrom_sizes  <-  getChromInfoFromUCSC(genome_assembly)
+    chrom_sizes  <-  data.table(chrom_sizes)
+    setkey(chrom_sizes, chrom)
+    
+    ## chrom_lengths  <-  setNames(chrom_sizes[chroms, length], chroms)
+
+    chrom_lengths = setNames(chrom_sizes$length, chrom_sizes$chrom)
+    ## length_factors  <- chrom_lengths / min(chrom_lengths)
+
+    length_factors  <- chrom_lengths / 10^6
+
+    return(length_factors)
+}
 
 #' 
 #'
@@ -77,14 +92,7 @@ count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
 
         genome_assembly  <- GenomeInfoDb::genome(chr_split_grangeslist [[1]]  [[1]] ) [[1]]
 
-        chrom_sizes  <-  getChromInfoFromUCSC(genome_assembly)
-        chrom_sizes  <-  data.table(chrom_sizes)
-        setkey(chrom_sizes, chrom)
-        
-        chrom_lengths  <-  setNames(chrom_sizes[chroms, length], chroms)
-
-        ##        length_factors  <- chrom_lengths / min(chrom_lengths)
-        length_factors  <- chrom_lengths / 10^6
+        length_factors <- get_chrom_norm_factors(genome_assembly)[chroms]
 
         if ((ncol(counts_matrix) == length(length_factors))  &
             all.equal(colnames(counts_matrix), names(length_factors) ) ) {
@@ -196,7 +204,7 @@ mut_matrix_chr = function( chr_split_grangeslist, ref_genome, num_cores) {
 #' 
 #' @export
 
-get_mut_types  <- function( SNV_profiles ) {
+get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
 
     sample_mut_types = list()
 
@@ -209,6 +217,15 @@ get_mut_types  <- function( SNV_profiles ) {
             rowSums(smat[,    substr(colnames(smat), 3, 5)== x,drop=FALSE]),
             numeric(nrow(smat))
             )
+
+        if (perMb) {
+            if (missing(genome_assembly) ) {
+                stop("perMb=TRUE option has to be passed with genome_assembly value: e.g. hg19, hg38")
+            }
+            chrom_norms = get_chrom_norm_factors(genome_assembly) [rownames(smat)]
+            out = out / chrom_norms
+        }
+        
         sample_mut_types[[sample]] = out
     }
     return(sample_mut_types)
