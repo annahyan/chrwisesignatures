@@ -10,6 +10,7 @@
 #' @import ggplot2
 #' @import MutationalPatterns
 #' @import robCompositions
+#' @importFrom ggpubr ggarrange
 
 
 
@@ -82,7 +83,8 @@ count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
         
         chrom_lengths  <-  setNames(chrom_sizes[chroms, length], chroms)
 
-        length_factors  <- chrom_lengths / min(chrom_lengths)
+        ##        length_factors  <- chrom_lengths / min(chrom_lengths)
+        length_factors  <- chrom_lengths / 10^6
 
         if ((ncol(counts_matrix) == length(length_factors))  &
             all.equal(colnames(counts_matrix), names(length_factors) ) ) {
@@ -125,8 +127,9 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
         geom_point() +
         facet_wrap ( ~ KO) +
         theme_bw(base_size = 13) +
-        theme(axis.text.x = element_text(angle = 90),
-              )
+        theme(axis.text.x = element_text(angle = 90)) +
+        xlab("Chromosomes") + ylab("Counts")
+    
     return(p)
 }
 
@@ -292,7 +295,7 @@ plot_pca  <-  function(dt_list, sample_classes) {
                                    })
                             )
 
-    sample_types = rep(smp_classes, vapply(dt_list, nrow, numeric(1)))
+    sample_types = rep(sample_classes, vapply(dt_list, nrow, numeric(1)))
 
 
     pca_list = prcomp(plot_material)
@@ -332,6 +335,73 @@ plot_pca  <-  function(dt_list, sample_classes) {
 }
 
 
+#' Plot substitution types
+#' 
+#'
+#' 
+#' 
+#' @export
+
+
+plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
+
+    plot_material = do.call( rbind,
+                            lapply(names(dt_list),
+                                   function(x) {
+                                       df = dt_list[[x]][, sub, drop = FALSE];
+                                       rownames(df) = paste(x, rownames(df),
+                                                            sep = ":");
+                                       return(df)
+                                   })
+                            )
+
+    plot_material = data.frame(plot_material)
+    colnames(plot_material) = "count"
+    
+    sample_types = rep(sample_classes, vapply(dt_list, nrow, numeric(1)))
+    
+    plot_material$smp = sample_types
+
+    if (! missing(treatment)) {
+        sample_treatment = rep(treatment, vapply(dt_list, nrow, numeric(1)))
+        plot_material$treatment = sample_treatment
+    }
+
+    if (! missing(treatment)){
+
+        p = ggplot(plot_material, aes(x = smp, y = count, fill = treatment))
+        
+    } else {
+        p = ggplot(plot_material, aes(x = smp, y = count)) 
+    }
+
+    p = p + geom_boxplot(outlier.shape = NA,
+                    position = position_dodge(width = 0.8) )  +
+        geom_jitter(position = position_dodge(width = 0.8))
+    
+    p = p + scale_color_brewer(palette = "Set1") + theme_bw() 
+    
+    return(p)
+}
 
 
 
+#' Plot all substitution plots
+#' 
+#'
+#' 
+#' 
+#' @export
+
+
+plot_sub_plots  <-  function(dt_list, sample_classes, treatment) {
+
+    plot_list = lapply(
+        MUT_TYPES, function(sub)
+            plot_sub_type_boxplots(dt_list, sub, sample_classes, treatment ) +
+            xlab("")
+    )
+
+
+    pout = ggarrange(plotlist=plot_list,nrow = 2, ncol = 3, labels = MUT_TYPES)
+}
