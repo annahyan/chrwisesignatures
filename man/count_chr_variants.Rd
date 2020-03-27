@@ -5,13 +5,13 @@
 \title{This function counts number of variants across samples and chromosomes.
 The function outputs a matrix with samples as rows and chromosomes as
 columns. Counts can be normalized for chromosome lengths with
-chr.norm = TRUE argument.}
+perMb = TRUE argument.}
 \usage{
-count_chr_variants(chr_split_grangeslist, chr.norm = TRUE)
+count_chr_variants(chr_split_grangeslist, perMb = TRUE)
 }
 \description{
 This function counts number of variants across samples and chromosomes.
 The function outputs a matrix with samples as rows and chromosomes as
 columns. Counts can be normalized for chromosome lengths with
-chr.norm = TRUE argument.
+perMb = TRUE argument.
 }

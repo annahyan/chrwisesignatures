@@ -72,13 +72,13 @@ split_chr <- function(vcf_granges_list, n_cores) {
 #' This function counts number of variants across samples and chromosomes.
 #' The function outputs a matrix with samples as rows and chromosomes as
 #' columns. Counts can be normalized for chromosome lengths with
-#' chr.norm = TRUE argument.
+#' perMb = TRUE argument.
 #'
 #'
 #' 
 #' @export
 
-count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
+count_chr_variants  <- function(chr_split_grangeslist, perMb = TRUE) {
 
     
     counts_list <- lapply(chr_split_grangeslist,
@@ -87,7 +87,7 @@ count_chr_variants  <- function(chr_split_grangeslist, chr.norm = TRUE) {
                           } )
     counts_matrix  <- do.call(rbind, counts_list)
 
-    if (chr.norm) {
+    if (perMb) {
         chroms  <- colnames(counts_matrix)
 
         genome_assembly  <- GenomeInfoDb::genome(chr_split_grangeslist [[1]]  [[1]] ) [[1]]
@@ -335,13 +335,13 @@ plot_pca  <-  function(dt_list, sample_classes) {
     rownames(pca_loadings) = colnames(plot_material)
 
     p = p + geom_segment(data = pca_loadings,
-                         aes(x = 0, y = 0, xend = PC1 * 120,
-                             yend = PC2 * 120),
+                         aes(x = 0, y = 0, xend = PC1 * 2,
+                             yend = PC2 * 2),
                          size = 1, 
                          arrow = arrow(length = unit(1/2, "picas") ),
                          color = "black") + 
-        annotate("text", x = pca_loadings$PC1 * 122,
-                 y = pca_loadings$PC2 * 122, 
+        annotate("text", x = pca_loadings$PC1 * 2.2,
+                 y = pca_loadings$PC2 * 2.2, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
         xlab ("PC1") + ylab("PC2")
