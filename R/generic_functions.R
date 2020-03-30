@@ -353,7 +353,7 @@ plot_pca  <-  function(dt_list, sample_classes) {
 
 
 #' Plot substitution types
-#' 
+#' ### Two types of inputs
 #'
 #' 
 #' 
@@ -384,6 +384,20 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
         plot_material$treatment = sample_treatment
     }
 
+    p = plot_count_boxplots(plot_material, treatment)
+}
+
+
+#' Plotting from a gg_df 
+#' This part of code is wrapped in a separate function to
+#' be used for both multinucleotide substitutions and SBSs
+#'
+#' 
+#' 
+#' @export
+
+
+plot_count_boxplots <- function(plot_material, treatment) {
     if (! missing(treatment)){
 
         p = ggplot(plot_material, aes(x = smp, y = count, fill = treatment))
@@ -393,14 +407,13 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
     }
 
     p = p + geom_boxplot(outlier.shape = NA,
-                    position = position_dodge(width = 0.8) )  +
+                         position = position_dodge(width = 0.8) )  +
         geom_jitter(position = position_dodge(width = 0.8))
     
     p = p + scale_color_brewer(palette = "Set1") + theme_bw() 
     
     return(p)
 }
-
 
 
 #' Plot all substitution plots
@@ -421,4 +434,110 @@ plot_sub_plots  <-  function(dt_list, sample_classes, treatment) {
 
 
     pout = ggarrange(plotlist=plot_list,nrow = 2, ncol = 3, labels = MUT_TYPES)
+}
+
+
+
+#' Plot counts
+#' 
+#'
+#' 
+#' 
+#' @export
+
+
+plot_counts  <-  function(mut_counts, sample_classes, treatment) {
+
+    gg_df = data.frame(mut_counts)
+    names(gg_df) = "counts"
+    
+    gg_df$classes = smp_classes
+
+    if (! missing(treatment))  {
+        gg_df$treatment = treatment
+
+        p = ggplot(gg_df, aes(x= classes, y = counts, fill = treatment )) +
+            geom_bar(stat = "identitfy", position = position_dodge(),
+                     width = 0.8)
+        
+        
+    } else {
+
+        p = ggplot(gg_df, aes(x= classes, y = counts)) +
+            geom_bar(stat = "identitfy", widht = 0.8)
+    }
+    p + xlab("") + ylab("Counts")
+}
+
+
+
+
+#' Returns number of multinucleotide substitutions for each sample
+#' and each chromosome from a list of samples with elements as 
+#' GRangesList with individual chromosome variants
+#' 
+#' 
+#' @export
+
+
+get_multinucl_profiles <- function(multisub_chr_list) {
+    out = setNames(
+        lapply(multisub_chr_list,
+               function(sample_chrs)  {
+                   lapply(sample_chrs, function(chr) {
+                       vars = mcols(chr)[, c("REF", "ALT")]
+                       
+                  return(table(paste(vars$REF, vars$ALT, sep = ">") ) )
+                   }
+                  )
+               }
+               ), names(multisub_chr_list)
+    )
+    return(out)
+}
+
+
+
+#' Generates a count matrix with substitution types as columns
+#' and samples-chrosomosomes as rows
+#' 
+#' 
+#' 
+#' @export
+
+
+
+get_multisub_count_matrix <- function(multisub_chr_profile) {
+
+    all_sub_types = c()
+
+    for (sname in names(multisub_chr_profile))  {
+        all_sub_types = c(all_sub_types,
+                          unique(
+                              do.call(c,
+                                      lapply(multisub_chr_profile[[sname]], function(x)
+                                          names(x)))) )
+    }
+    all_sub_types = unique(all_sub_types)
+    
+    all_sub_matrix = matrix(0, nrow = sum(sapply(multisub_chr_profile,length)),
+                            ncol = length(all_sub_types))
+
+    colnames(all_sub_matrix) = all_sub_types
+
+    rownames(all_sub_matrix) = do.call(
+        c, lapply( names(multisub_chr_profile),
+                  function(x)
+                      paste(x, names(multisub_chr_profile[[x]]), sep = ":")
+                  ) )
+
+    
+    for (sname in names(multisub_chr_profile)) {
+        for (chr in names(multisub_chr_profile[[sname]])) {
+            s_c_subs = multisub_chr_profile[[sname]][[chr]] 
+            all_sub_matrix[paste(sname, chr, sep = ":"), names(s_c_subs)] = s_c_subs
+        }
+    }
+    
+    return(all_sub_matrix)
 }
