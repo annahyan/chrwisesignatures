@@ -6,7 +6,7 @@
 This part of code is wrapped in a separate function to
 be used for both multinucleotide substitutions and SBSs}
 \usage{
-plot_count_boxplots(plot_material, treatment)
+plot_count_boxplots(plot_material, count_colname, sample, treatment)
 }
 \description{
 Plotting from a gg_df 

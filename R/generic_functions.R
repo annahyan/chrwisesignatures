@@ -384,7 +384,7 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
         plot_material$treatment = sample_treatment
     }
 
-    p = plot_count_boxplots(plot_material, treatment)
+    p = plot_count_boxplots(plot_material, "count", "smp", "treatment")
 }
 
 
@@ -397,20 +397,21 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
 #' @export
 
 
-plot_count_boxplots <- function(plot_material, treatment) {
+plot_count_boxplots <- function(plot_material, count_colname, sample, treatment) {
     if (! missing(treatment)){
 
-        p = ggplot(plot_material, aes(x = smp, y = count, fill = treatment))
+        p = ggplot(plot_material, aes_string(x = sample, y = count_colname, fill = treatment))
         
     } else {
-        p = ggplot(plot_material, aes(x = smp, y = count)) 
+        p = ggplot(plot_material, aes(x = "smp", y = colname)) 
     }
 
     p = p + geom_boxplot(outlier.shape = NA,
                          position = position_dodge(width = 0.8) )  +
         geom_jitter(position = position_dodge(width = 0.8))
     
-    p = p + scale_color_brewer(palette = "Set1") + theme_bw() 
+    p = p + # scale_color_brewer(palette = "Set1") +
+        theme_bw() 
     
     return(p)
 }
