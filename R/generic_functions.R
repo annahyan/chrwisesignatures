@@ -253,7 +253,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
                                    })
                             )
 
-    sample_types = rep(smp_classes, vapply(dt_list, nrow, numeric(1)))
+    sample_types = rep(sample_classes, vapply(dt_list, nrow, numeric(1)))
 
 
     pca_list = pcaCoDa(plot_material)
@@ -385,6 +385,8 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
     }
 
     p = plot_count_boxplots(plot_material, "count", "smp", "treatment")
+    return(p)
+    
 }
 
 
@@ -400,10 +402,11 @@ plot_sub_type_boxplots  <-  function(dt_list, sub, sample_classes, treatment) {
 plot_count_boxplots <- function(plot_material, count_colname, sample, treatment) {
     if (! missing(treatment)){
 
-        p = ggplot(plot_material, aes_string(x = sample, y = count_colname, fill = treatment))
+        p = ggplot(plot_material, aes_string(x = sample,
+                                             y = count_colname, fill = treatment))
         
     } else {
-        p = ggplot(plot_material, aes(x = "smp", y = colname)) 
+        p = ggplot(plot_material, aes(x = "smp", y = count_colname)) 
     }
 
     p = p + geom_boxplot(outlier.shape = NA,
@@ -417,25 +420,25 @@ plot_count_boxplots <- function(plot_material, count_colname, sample, treatment)
 }
 
 
-#' Plot all substitution plots
-#' 
-#'
-#' 
-#' 
-#' @export
+## #' Plot all substitution plots
+## #' 
+## #'
+## #' 
+## #' 
+## #' @export
 
 
-plot_sub_plots  <-  function(dt_list, sample_classes, treatment) {
+## plot_sub_plots  <-  function(dt_list, sample_classes, treatment) {
 
-    plot_list = lapply(
-        MUT_TYPES, function(sub)
-            plot_sub_type_boxplots(dt_list, sub, sample_classes, treatment ) +
-            xlab("")
-    )
+##     plot_list = lapply(
+##         MUT_TYPES, function(sub)
+##             plot_sub_type_boxplots(dt_list, sub, sample_classes, treatment ) +
+##             xlab("")
+##     )
 
 
-    pout = ggarrange(plotlist=plot_list,nrow = 2, ncol = 3, labels = MUT_TYPES)
-}
+##     pout = ggarrange(plotlist=plot_list,nrow = 2, ncol = 3, labels = MUT_TYPES)
+## }
 
 
 
@@ -452,7 +455,7 @@ plot_counts  <-  function(mut_counts, sample_classes, treatment) {
     gg_df = data.frame(mut_counts)
     names(gg_df) = "counts"
     
-    gg_df$classes = smp_classes
+    gg_df$classes = sample_classes
 
     if (! missing(treatment))  {
         gg_df$treatment = treatment
