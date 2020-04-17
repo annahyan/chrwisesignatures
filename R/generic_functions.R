@@ -243,18 +243,22 @@ get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
 
 plot_coda_pca  <-  function(dt_list, sample_classes) {
 
-    plot_material = do.call( rbind,
-                            lapply(names(dt_list),
-                                   function(x) {
-                                       df = dt_list[[x]];
-                                       rownames(df) = paste(x, rownames(df),
-                                                            sep = ":");
-                                       return(df)
-                                   })
-                            )
+    if (is.list(dt_list)) { 
+        plot_material = do.call( rbind,
+                                lapply(names(dt_list),
+                                       function(x) {
+                                           df = dt_list[[x]];
+                                           rownames(df) = paste(x, rownames(df),
+                                                                sep = ":");
+                                           return(df)
+                                       })
+                                )
 
-    sample_types = rep(sample_classes, vapply(dt_list, nrow, numeric(1)))
-
+        sample_types = rep(sample_classes, vapply(dt_list, nrow, numeric(1)))
+    } else {
+        plot_material = t(dt_list)
+        sample_types = sample_classes
+    }
 
     pca_list = pcaCoDa(plot_material)
     outliers = outCoDa(plot_material)
