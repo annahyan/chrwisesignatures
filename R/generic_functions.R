@@ -299,8 +299,9 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
                  y = pca_loadings$Comp.2 * 2.2, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
-        xlab(paste("PC1", " (",proportion_variance[1], "%)" ) )  +
-        ylab("PC2", " (",proportion_variance[2], "%)")
+        xlab(paste0("PC1", " (",proportion_variance[1], "%)" ) )  +
+        ylab(paste0("PC2", " (",proportion_variance[2], "%)") )
+    
     return(p)
 }
 
