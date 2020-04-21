@@ -210,6 +210,7 @@ get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
 
     sample_names  <-  names(SNV_profiles)
 
+    assembly_norm_factors = get_chrom_norm_factors(genome_assembly) 
     for (sample in sample_names) {
         smat  <- SNV_profiles[[sample]]
         
@@ -222,7 +223,7 @@ get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
             if (missing(genome_assembly) ) {
                 stop("perMb=TRUE option has to be passed with genome_assembly value: e.g. hg19, hg38")
             }
-            chrom_norms = get_chrom_norm_factors(genome_assembly) [rownames(smat)]
+            chrom_norms = assembly_norm_factors [rownames(smat)]
             out = out / chrom_norms
         }
         
@@ -260,9 +261,17 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
         sample_types = sample_classes
     }
 
+
+    
     pca_list = pcaCoDa(plot_material)
     outliers = outCoDa(plot_material)
     print(outliers)
+
+
+    ## Getting proporition of variance explained
+    proportion_variance = (pca_list$eigenvalues ^ 2) / sum((pca_list$eigenvalues ^ 2))
+    percent_variance = 100 * proportion_variance
+
     
     rob_pca_scores = data.frame(pca_list$scores)
     rob_pca_scores$col = sample_types
@@ -290,7 +299,8 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
                  y = pca_loadings$Comp.2 * 2.2, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
-        xlab("PC1") + ylab("PC2")
+        xlab(paste("PC1", " (",proportion_variance[1], "%)" ) )  +
+        ylab("PC2", " (",proportion_variance[2], "%)")
     return(p)
 }
 
