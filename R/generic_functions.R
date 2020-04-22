@@ -622,4 +622,6 @@ split_by_regions <- function(variants_list, txdb_file, n_cores) {
                 return(out)
             }, mc.cores = n_cores)
     }
+
+    return(variants_by_region)
 }
