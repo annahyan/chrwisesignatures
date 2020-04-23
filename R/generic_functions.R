@@ -625,3 +625,37 @@ split_by_regions <- function(variants_list, txdb_file, n_cores) {
 
     return(variants_by_region)
 }
+
+
+#' MutationalPatterns mut_matrix added n_cores option
+#' 
+#' 
+#' 
+#' 
+#' @export
+
+mut_matrix = function (vcf_list, ref_genome, n_cores) 
+{
+    df = data.frame()
+
+
+    if (missing(n_cores)) {
+        n_cores = detectCores()
+        if (!(.Platform$OS.type == "windows" || is.na(n_cores)))
+            n_cores <- ceiling(detectCores() * 0.75)
+    }
+
+    rows <- mclapply(as.list(vcf_list), function(vcf) {
+        type_context = type_context(vcf, ref_genome)
+        row = mut_96_occurrences(type_context)
+        return(row)
+    }, mc.cores = n_cores)
+    for (row in rows) {
+        if (class(row) == "try-error") 
+            stop(row)
+        df = rbind(df, row)
+    }
+    names(df) = names(row)
+    row.names(df) = names(vcf_list)
+    return(t(df))
+}
