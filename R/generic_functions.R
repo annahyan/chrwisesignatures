@@ -281,7 +281,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
 
 
     p = ggplot(rob_pca_scores, aes(x = Comp.1, y = Comp.2, color = col)) + 
-        geom_point(size = 2) +
+        geom_point(size = 3) +
         scale_color_brewer(palette = "Set1" ) # 
 #        scale_color_manual(values = sample(CEMM_COLORS_ALL, 9 ) ) # +
     ## ggtitle(paste0("Rank:", nmf.rank))
