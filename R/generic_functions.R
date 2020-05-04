@@ -12,6 +12,7 @@
 #' @import robCompositions
 #' @importFrom ggpubr ggarrange
 #' @importFrom IRanges subsetByOverlaps
+#' @importFrom philentropy H
 
 
 
@@ -734,4 +735,30 @@ mut_matrix = function (vcf_list, ref_genome, n_cores)
     names(df) = names(row)
     row.names(df) = names(vcf_list)
     return(t(df))
+}
+
+
+#' For genomic windows calculate Shannon entropy along with rainfall plots
+#' 
+#' 
+#' 
+#' 
+#' @export
+
+get_variant_Shannon = function(variants, chr_length, window = 1e6, step = 500000) {
+
+    step_pos = seq(1, chr_length - window + step, step)
+    
+    out = vapply(step_pos, function(pos) {
+        relevant_starts = start(subsetByOverlaps(ranges(variants),
+                                                  IRanges(start = pos,
+                                                         end = pos + window) ) )
+        var_dists = log10(diff(relevant_starts))
+
+        H(var_dists / sum(var_dists))
+    }, as.numeric(1))
+
+    outdf = data.frame(pos = step_pos, H = out)
+    return(outdf)
+    
 }
