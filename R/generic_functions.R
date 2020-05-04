@@ -745,20 +745,19 @@ mut_matrix = function (vcf_list, ref_genome, n_cores)
 #' 
 #' @export
 
-get_variant_Shannon = function(variants, chr_length, window = 1e6, step = 500000) {
+get_variant_entropy = function(variants, chr_length, window = 1e6, step = 500000) {
 
     step_pos = seq(1, chr_length - window + step, step)
     
     out = vapply(step_pos, function(pos) {
-        relevant_starts = start(subsetByOverlaps(ranges(variants),
+        relevant_starts = start(IRanges::subsetByOverlaps(ranges(variants),
                                                   IRanges(start = pos,
                                                          end = pos + window) ) )
         var_dists = log10(diff(relevant_starts))
 
-        H(var_dists / sum(var_dists))
+        philentropy::H(var_dists / sum(var_dists))
     }, as.numeric(1))
 
-    outdf = data.frame(pos = step_pos, H = out)
-    return(outdf)
-    
+    outdt = data.table(pos = step_pos, H = out)
+    return(outdt)
 }
