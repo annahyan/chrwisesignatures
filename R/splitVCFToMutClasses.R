@@ -1,4 +1,5 @@
 #' A function splitting vcf files into SNVs, multinucleotide substitutions and indels
+#' !!!!! Change to account for rs variants 
 #'
 #' @import GenomeInfoDb
 #' @importFrom parallel detectCores
@@ -100,7 +101,7 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
         
         multisub_units  <-  bind_rows(chr_wise_multisubs, .id = NULL )
         
-        multisubs[[sname]]  <-  GRanges(multisub_units)
+        multisubs[[sname]]  <-  GRanges(multisub_units[!is.na(multisub_units$start), ])
         SNVs[[sname]]  <-  subsetByOverlaps(svar_nonindels, multisubs[[sname]], invert = TRUE)
         
     }

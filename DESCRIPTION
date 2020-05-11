@@ -21,6 +21,7 @@ Imports: factoextra,
 	 GenomeInfoDb,
 	 ggplot2,
 	 philentropy,
+	 data.table,
 Depends: R (>= 3.6.1),
 Suggests:
 	BSgenome.Hsapiens.UCSC.hg19,

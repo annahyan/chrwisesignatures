@@ -2,12 +2,14 @@
 % Please edit documentation in R/splitVCFToMutClasses.R
 \name{splitVCFToMutClasses}
 \alias{splitVCFToMutClasses}
-\title{A function splitting vcf files into SNVs, multinucleotide substitutions and indels}
+\title{A function splitting vcf files into SNVs, multinucleotide substitutions and indels
+!!!!! Change to account for rs variants}
 \usage{
 splitVCFToMutClasses(vcffile, n_cores)
 }
 \description{
 A function splitting vcf files into SNVs, multinucleotide substitutions and indels
+!!!!! Change to account for rs variants
 }
 \examples{
 splitVCFtoMutClasses(vcf_granges)
