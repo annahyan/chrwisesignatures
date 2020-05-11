@@ -755,9 +755,15 @@ get_variant_entropy = function(variants, chr_length, window = 1e6, step = 500000
                                                          end = pos + window) ) )
         var_dists = log10(diff(relevant_starts))
 
-        philentropy::H(var_dists / sum(var_dists))
+        if (sum(var_dists) == 0) {
+            return(0)
+        } else {
+            return(philentropy::H(var_dists / sum(var_dists)))
+        }
     }, as.numeric(1))
 
     outdt = data.table(pos = step_pos, H = out)
     return(outdt)
 }
+
+
