@@ -767,3 +767,29 @@ get_variant_entropy = function(variants, chr_length, window = 1e6, step = 500000
 }
 
 
+#' Get regions with of FP cluster variants with given entropy_thresholds
+#' and length of a region with high entropy.
+#' 
+#' 
+#' 
+#' 
+#' @export
+
+
+get_corrupt_regions = function(entropy_vals, threshold, window, step, expand) {
+
+    if(missing(expand)) {
+        expand = window
+    }
+
+    corrupt_regions = reduce(IRanges(entropy_vals[H > threshold, pos],
+                                        width = step + 1))
+    corrupt_regions = corrupt_regions[width(corrupt_regions) > window]
+
+
+    out = resize(corrupt_regions, width = width(corrupt_regions) + expand,
+                 fix = "start")
+
+    return(out)
+    
+}
