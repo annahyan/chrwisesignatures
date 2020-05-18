@@ -244,8 +244,19 @@ get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
 #' @export
 
 
-plot_coda_pca  <-  function(dt_list, sample_classes) {
+plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
 
+    
+    if (missing(point_size)) {
+        point_size = 3
+    }
+
+        
+    if (missing(arrow_length)) {
+        arrow_length = 2
+    }
+
+    
     if (is.list(dt_list)) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
@@ -282,7 +293,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
 
 
     p = ggplot(rob_pca_scores, aes(x = Comp.1, y = Comp.2, color = col)) + 
-        geom_point(size = 3) +
+        geom_point(size = point_size) +
         scale_color_brewer(palette = "Set1" ) # 
 #        scale_color_manual(values = sample(CEMM_COLORS_ALL, 9 ) ) # +
     ## ggtitle(paste0("Rank:", nmf.rank))
@@ -292,13 +303,13 @@ plot_coda_pca  <-  function(dt_list, sample_classes) {
     rownames(pca_loadings) = colnames(plot_material)
 
     p = p + geom_segment(data = pca_loadings,
-                         aes(x = 0, y = 0, xend = Comp.1 * 2,
-                             yend = Comp.2 * 2),
+                         aes(x = 0, y = 0, xend = Comp.1 * arrow_length,
+                             yend = Comp.2 * arrow_length),
                          size =0.5, 
                          arrow = arrow(length = unit(1/2, "picas") ),
                          color = "gray70") + 
-        annotate("text", x = pca_loadings$Comp.1 * 2.2,
-                 y = pca_loadings$Comp.2 * 2.2, 
+        annotate("text", x = pca_loadings$Comp.1 * arrow_length * 1.1,
+                 y = pca_loadings$Comp.2 * arrow_length * 1.1, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
         xlab(paste0("PC1", " (",round(percent_variance[1], 2), "%)" ) )  +
