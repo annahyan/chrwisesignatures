@@ -432,7 +432,7 @@ plot_pca  <-  function(dt_list, sample_classes) {
                              yend = PC2 * 2),
                          size = 1, 
                          arrow = arrow(length = unit(1/2, "picas") ),
-                         color = "black") + 
+                         color = "gray70") + 
         annotate("text", x = pca_loadings$PC1 * 2.2,
                  y = pca_loadings$PC2 * 2.2, 
                  label = rownames(pca_loadings)) +
