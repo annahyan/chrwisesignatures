@@ -436,7 +436,9 @@ plot_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
     
     pca_list = prcomp(plot_material)
 
-    
+    percent_variance = 100 * summary(pca_list)$importance[2,]
+
+
     pca_scores = data.frame(pca_list$x)
     pca_scores$col = sample_types
 
@@ -463,11 +465,10 @@ plot_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
                  y = pca_loadings$PC2 * arrow_length * 1.1, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
-        xlab ("PC1") + ylab("PC2")
-
-
+        xlab(paste0("PC1", " (",round(percent_variance[1], 2), "%)" ) )  +
+        ylab(paste0("PC2", " (",round(percent_variance[2], 2), "%)") )
+    
     return(p)
-
 }
 
 
