@@ -4,7 +4,7 @@
 \alias{plot_pca}
 \title{Plot classical PCA}
 \usage{
-plot_pca(dt_list, sample_classes)
+plot_pca(dt_list, sample_classes, point_size, arrow_length)
 }
 \description{
 Plot classical PCA
