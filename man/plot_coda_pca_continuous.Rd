@@ -4,7 +4,14 @@
 \alias{plot_coda_pca_continuous}
 \title{Plot CoDa PCA continuous coloring}
 \usage{
-plot_coda_pca_continuous(dt_list, continuous, palette_name)
+plot_coda_pca_continuous(
+  dt_list,
+  continuous,
+  palette_name,
+  point_size,
+  arrow_length,
+  method
+)
 }
 \description{
 Plot CoDa PCA continuous coloring

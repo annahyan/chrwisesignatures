@@ -145,7 +145,7 @@ plot_chrwise_counts  <- function(chr_wise_counts, KOs, treatment, clones) {
 
 
 
-mut_96_occurrences  <-  getFromNamespace("mut_96_occurrences", "MutationalPatterns")
+mut_96_occurrences <- getFromNamespace("mut_96_occurrences", "MutationalPatterns")
 
 
 
@@ -159,7 +159,7 @@ mut_96_occurrences  <-  getFromNamespace("mut_96_occurrences", "MutationalPatter
 
 
 
-mut_matrix_chr = function( chr_split_grangeslist, ref_genome, num_cores) {
+mut_matrix_chr  <-  function( chr_split_grangeslist, ref_genome, num_cores) {
     if (missing(num_cores))
     {
         num_cores = detectCores()
@@ -244,18 +244,19 @@ get_mut_types  <- function( SNV_profiles, perMb = FALSE, genome_assembly) {
 #' @export
 
 
-plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
+plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length, method) {
 
     
     if (missing(point_size)) {
         point_size = 3
     }
-
         
     if (missing(arrow_length)) {
         arrow_length = 2
     }
-
+    if (missing(method)) {
+        method = "robust"
+    }
     
     if (is.list(dt_list)) { 
         plot_material = do.call( rbind,
@@ -276,7 +277,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
 
 
     
-    pca_list = pcaCoDa(plot_material)
+    pca_list = pcaCoDa(plot_material, method = method)
     outliers = outCoDa(plot_material)
     print(outliers)
 
@@ -307,7 +308,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
                              yend = Comp.2 * arrow_length),
                          size =0.5, 
                          arrow = arrow(length = unit(1/2, "picas") ),
-                         color = "gray70") + 
+                         color = "gray50") + 
         annotate("text", x = pca_loadings$Comp.1 * arrow_length * 1.1,
                  y = pca_loadings$Comp.2 * arrow_length * 1.1, 
                  label = rownames(pca_loadings)) +
@@ -326,7 +327,18 @@ plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
 #' @export
 
 
-plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name) {
+plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name, point_size, arrow_length, method) {
+
+    if (missing(point_size)) {
+        point_size = 3
+    }
+    
+    if (missing(arrow_length)) {
+        arrow_length = 2
+    }
+    if (missing(method)) {
+        method = "robust"
+    }
 
     if (missing(palette_name)) {
         palette_name = "Spectral"
@@ -351,7 +363,7 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name) {
 
 
     
-    pca_list = pcaCoDa(plot_material)
+    pca_list = pcaCoDa(plot_material, method = method)
     outliers = outCoDa(plot_material)
     print(outliers)
 
@@ -368,7 +380,7 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name) {
 
 
     p = ggplot(rob_pca_scores, aes(x = Comp.1, y = Comp.2) ) + 
-        geom_point(aes(colour = col), size = 2) +
+        geom_point(aes(colour = col), size = point_size) +
         scale_color_distiller(palette = palette_name ) # 
 #        scale_color_manual(values = sample(CEMM_COLORS_ALL, 9 ) ) # +
     ## ggtitle(paste0("Rank:", nmf.rank))
@@ -378,13 +390,13 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name) {
     rownames(pca_loadings) = colnames(plot_material)
 
     p = p + geom_segment(data = pca_loadings,
-                         aes(x = 0, y = 0, xend = Comp.1 * 2,
-                             yend = Comp.2 * 2),
+                         aes(x = 0, y = 0, xend = Comp.1 * arrow_length,
+                             yend = Comp.2 * arrow_length),
                          size =0.5, 
                          arrow = arrow(length = unit(1/2, "picas") ),
-                         color = "black") + 
-        annotate("text", x = pca_loadings$Comp.1 * 2.2,
-                 y = pca_loadings$Comp.2 * 2.2, 
+                         color = "gray50") + 
+        annotate("text", x = pca_loadings$Comp.1 * arrow_length * 1.1,
+                 y = pca_loadings$Comp.2 * arrow_length * 1.1, 
                  label = rownames(pca_loadings)) +
         theme_bw() + theme(legend.title = element_blank()) +
         xlab(paste0("PC1", " (",round(percent_variance[1], 2), "%)" ) )  +
@@ -392,7 +404,6 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name) {
     
     return(p)
 }
-
 
 
 #' Plot classical PCA
@@ -460,7 +471,7 @@ plot_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
                              yend = PC2 * arrow_length),
                          size = 1, 
                          arrow = arrow(length = unit(1/2, "picas") ),
-                         color = "gray70") + 
+                         color = "gray50") + 
         annotate("text", x = pca_loadings$PC1 * arrow_length * 1.1,
                  y = pca_loadings$PC2 * arrow_length * 1.1, 
                  label = rownames(pca_loadings)) +

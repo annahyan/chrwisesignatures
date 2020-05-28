@@ -4,7 +4,7 @@
 \alias{plot_coda_pca}
 \title{Plot CoDa PCA}
 \usage{
-plot_coda_pca(dt_list, sample_classes, point_size, arrow_length)
+plot_coda_pca(dt_list, sample_classes, point_size, arrow_length, method)
 }
 \description{
 Plot CoDa PCA
