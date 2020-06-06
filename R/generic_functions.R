@@ -841,7 +841,7 @@ get_corrupt_regions = function(entropy_vals, threshold, window, step, expand) {
 #' @export
 
 
-corCoDa = function(x, p.val = 0.05, ...) {
+corCoDa = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
     if (any(x[!is.na(x)] <= 0)) 
@@ -876,10 +876,50 @@ corCoDa = function(x, p.val = 0.05, ...) {
             corZav[i, j] <- cor(balZavout, ...)[1, 2]
         }
     }
+
+    if(p.adjust) corPvals = p.adjust(corPvals, method = "BH")
+    
     corZav[corPvals > p.val ] = 0
     corZav[lower.tri(corZav)] <- t(corZav)[lower.tri(corZav)]
     diag(corZav) <- 1
     return(corZav)
+}
+
+
+#' Correlation of all pairs with p.values 
+#' 
+#' Non-CoDa version of corCoDa
+#' 
+#' @export
+
+corSigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
+
+    if (!is.matrix(x) & !is.data.frame(x)) 
+        stop("x must be a matrix or data.frame")
+    if (any(x[!is.na(x)] <= 0)) 
+        stop("all elements of x must be greater than 0")
+    if (ncol(x) <= 2) 
+        stop("calculation of average symmetric coordinates not possible")
+
+    ind <- c(1:ncol(x))
+    corav <- matrix(NA, ncol(x), ncol(x))
+    corPvals <- matrix(NA, ncol(x), ncol(x))
+    for (i in 1:(ncol(x) - 1)) {
+        for (j in (i + 1):ncol(x)) {
+            two_cols = x[, c(i, j)]
+            corPvals[i, j]  <-  cor.test(two_cols[,1], two_cols[, 2], ...)$p.value
+
+            corav[i, j] <- cor(two_cols, ...)[1, 2]
+        }
+    }
+    
+    if(p.adjust) corPvals = p.adjust(corPvals, method = "BH") 
+
+        
+    corav[corPvals > p.val ] = 0
+    corav[lower.tri(corav)] <- t(corav)[lower.tri(corav)]
+    diag(corav) <- 1
+    return(corav)
 }
 
 
