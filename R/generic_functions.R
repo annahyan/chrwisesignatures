@@ -258,7 +258,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length, m
         method = "robust"
     }
     
-    if (is.list(dt_list)) { 
+    if (inherits(dt_list, "data.frame")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
@@ -344,7 +344,7 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name, point_
         palette_name = "Spectral"
     }
     
-    if (is.list(dt_list)) { 
+    if (inherits(dt_list, "data.frame")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
@@ -427,7 +427,7 @@ plot_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
     }
 
     
-    if (is.list(dt_list)) { 
+    if (inherits(dt_list, "data.frame")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
@@ -899,10 +899,10 @@ corSigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
 
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
-    if (any(x[!is.na(x)] <= 0)) 
-        stop("all elements of x must be greater than 0")
-    if (ncol(x) <= 2) 
-        stop("calculation of average symmetric coordinates not possible")
+    ## if (any(x[!is.na(x)] <= 0)) 
+    ##     stop("all elements of x must be greater than 0")
+    ## if (ncol(x) <= 2) 
+    ##     stop("calculation of average symmetric coordinates not possible")
 
     ind <- c(1:ncol(x))
     corav <- matrix(NA, ncol(x), ncol(x))
