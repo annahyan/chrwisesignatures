@@ -4,7 +4,7 @@
 \alias{corCoDa}
 \title{CoDa correlation of all pairs with p.values}
 \usage{
-corCoDa(x, p.val = 0.05, ...)
+corCoDa(x, p.val = 0.05, p.adjust = TRUE, ...)
 }
 \description{
 Slightly modified from the function from robCompositions

@@ -871,6 +871,9 @@ corCoDa = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     for (i in 1:(ncol(x) - 1)) {
         for (j in (i + 1):ncol(x)) {
             balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
+
+            balZavout = balZavout[is.finite(rowSums(balZavout)), ]
+            
             corPvals[i, j]  <-  cor.test(balZavout[,1], balZavout[, 2], ...)$p.value
 
             corZav[i, j] <- cor(balZavout, ...)[1, 2]
