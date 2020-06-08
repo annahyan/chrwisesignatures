@@ -258,7 +258,7 @@ plot_coda_pca  <-  function(dt_list, sample_classes, point_size, arrow_length, m
         method = "robust"
     }
     
-    if (inherits(dt_list, "data.frame")) { 
+    if (inherits(dt_list, "list")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
@@ -344,7 +344,7 @@ plot_coda_pca_continuous  <-  function(dt_list, continuous, palette_name, point_
         palette_name = "Spectral"
     }
     
-    if (inherits(dt_list, "data.frame")) { 
+    if (inherits(dt_list, "list")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
@@ -427,7 +427,7 @@ plot_pca  <-  function(dt_list, sample_classes, point_size, arrow_length) {
     }
 
     
-    if (inherits(dt_list, "data.frame")) { 
+    if (inherits(dt_list, "list")) { 
         plot_material = do.call( rbind,
                                 lapply(names(dt_list),
                                        function(x) {
