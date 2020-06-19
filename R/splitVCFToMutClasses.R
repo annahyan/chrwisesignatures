@@ -38,21 +38,19 @@ splitVCFToMutClasses <- function(vcffile, n_cores) {
 
         ## Removing multiallelic sites
         
-        alt_len  <-  sapply (svars$ALT, function(x) { 
-            if (length(x) > 1) {
-                return(0)
-            } else {
-                return ( width( x ) )
-            } } 
-            )
+        ## Checking the number of alternative alleles
+        alt_num = elementNROWS(svars$ALT)
+        ## Removing multiallelic sites
+        svars = svars[alt_num == 1, ]
+        ## Getting the length of the alternative 
+        alt_len = width(unlist(svars$ALT))
 
-        
-        svars  <-  svars[alt_len > 0, ]
-        alt_len  <-  alt_len [alt_len > 0 ]
-        
+        ## Making the R
         if ( is (svars$ALT, "DNAStringSetList")) {
             svars$ALT  <-  as.character(svars$ALT@unlistData)
         }
+        
+        
         
         indels[[sname]]  <-  svars[ alt_len != width(svars$REF), ]
         
