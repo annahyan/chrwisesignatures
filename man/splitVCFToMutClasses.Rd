@@ -3,13 +3,16 @@
 \name{splitVCFToMutClasses}
 \alias{splitVCFToMutClasses}
 \title{A function splitting vcf files into SNVs, multinucleotide substitutions and indels
-!!!!! Change to account for rs variants}
+# !!!!! Change to account for rs variants needed}
 \usage{
 splitVCFToMutClasses(vcffile, n_cores)
 }
 \description{
 A function splitting vcf files into SNVs, multinucleotide substitutions and indels
-!!!!! Change to account for rs variants
+# !!!!! Change to account for rs variants needed
+}
+\details{
+Splits variants in GRanges into SNVs
 }
 \examples{
 splitVCFtoMutClasses(vcf_granges)
