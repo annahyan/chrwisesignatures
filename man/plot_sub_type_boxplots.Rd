@@ -3,11 +3,13 @@
 \name{plot_sub_type_boxplots}
 \alias{plot_sub_type_boxplots}
 \title{Plot substitution types
-### Two types of inputs}
+\subsection{Two types of inputs}{
+}}
 \usage{
 plot_sub_type_boxplots(dt_list, sub, sample_classes, treatment)
 }
 \description{
 Plot substitution types
-### Two types of inputs
+\subsection{Two types of inputs}{
+}
 }

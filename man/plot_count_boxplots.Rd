@@ -2,14 +2,14 @@
 % Please edit documentation in R/generic_functions.R
 \name{plot_count_boxplots}
 \alias{plot_count_boxplots}
-\title{Plotting from a gg_df 
+\title{Plotting from a gg_df
 This part of code is wrapped in a separate function to
 be used for both multinucleotide substitutions and SBSs}
 \usage{
 plot_count_boxplots(plot_material, count_colname, sample, treatment)
 }
 \description{
-Plotting from a gg_df 
+Plotting from a gg_df
 This part of code is wrapped in a separate function to
 be used for both multinucleotide substitutions and SBSs
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/generic_functions.R, R/split_by_regions.R
 \name{split_by_regions}
 \alias{split_by_regions}
-\title{Split variants into genomic regions 
+\title{Split variants into genomic regions
 exons, introns, utr3, utr5, intergenic}
 \usage{
 split_by_regions(variants_list, txdb_file, n_cores)
@@ -22,7 +22,7 @@ A list of genomic regions (exons, introns, etc.), containing a list of
 samples with variants residing in corresponding regions.
 }
 \description{
-Split variants into genomic regions 
+Split variants into genomic regions
 exons, introns, utr3, utr5, intergenic
 
 Split variants into genomic regions: exons, introns, utr3, utr5, intergenic

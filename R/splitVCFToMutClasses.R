@@ -1,8 +1,6 @@
 #' A function splitting vcf files into SNVs, multinucleotide substitutions and indels
-#' # !!!!! Change to account for rs variants needed
 #'
-#' @details
-#' Splits variants in GRanges into SNVs 
+#' @details Splits variants in GRanges into SNVs 
 #' 
 #' @import GenomeInfoDb
 #' @importFrom parallel detectCores
