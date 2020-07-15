@@ -13,9 +13,9 @@
 #' length of this parameter has to be equal to the length of dt_list if list is
 #' provided, or number of rows if data.frame provided.
 #'
-#' @param point_size Point size
+#' @param point_size Point size. default: 3
 #'
-#' @param arrow_length the length of biplot arrows
+#' @param arrow_length Length of biplot arrows. default: 2
 #'
 #' @param method The method for PCA: classical or robust. default:robust
 #'
