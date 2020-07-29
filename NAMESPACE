@@ -3,6 +3,7 @@
 export(corCoDa)
 export(corSigs)
 export(cor_coda)
+export(cor_coda_novel)
 export(cor_sigs)
 export(count_chr_variants)
 export(get_corrupt_regions)
