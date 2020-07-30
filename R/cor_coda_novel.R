@@ -61,7 +61,7 @@ cor_coda_novel = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
             
             ## balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
 
-            balZavout = balZavout[, rowSums(balZavout > 0)]
+            balZavout = balZavout[, colSums(balZavout) > 0 ]
 
             corout = cor.test(balZavout[1,], balZavout[2,], ...)
             corPvals[i, j]  <-  corout$p.value
