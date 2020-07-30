@@ -62,11 +62,15 @@ cor_coda_novel = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
             ## balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
 
             balZavout = balZavout[, colSums(balZavout) > 0 ]
+            if (ncol(balZavout) > 2) {
+                corout = cor.test(balZavout[1,], balZavout[2,], ...)
+                corPvals[i, j]  <-  corout$p.value
+                corZav[i, j] <- corout$estimate
+            } else {
+                corPvals[i, j]  <-  1
+                corZav[i, j] <- 0
 
-            corout = cor.test(balZavout[1,], balZavout[2,], ...)
-            corPvals[i, j]  <-  corout$p.value
-
-            corZav[i, j] <- corout$estimate
+            }
         }
     }
 
