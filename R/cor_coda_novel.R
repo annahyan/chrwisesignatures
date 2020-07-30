@@ -21,8 +21,8 @@
 cor_coda_novel = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
-    if (any(x[!is.na(x)] <= 0)) 
-        stop("all elements of x must be greater than 0")
+    ## if (any(x[!is.na(x)] <= 0)) 
+    ##     stop("all elements of x must be greater than 0")
     if (ncol(x) <= 2) 
         stop("calculation of average symmetric coordinates not possible")
     balZavRow <- function(x) {
