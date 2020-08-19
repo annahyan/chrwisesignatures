@@ -8,7 +8,7 @@
 #'
 #' @param p.val All the correlations with >=p.val are set to 0.
 #' @param p.adjust If TRUE, p.value adjustment with BH correction is applied
-#' before setting correlations with p.value >= p.val to 0.
+#' before setting correlations with p.value >= p.val to 0. default: TRUE
 #' @param ... arguments passed to cor.test
 #'
 #' @return Signature cooccurrence matrix. Values correspond to Fisher's test
