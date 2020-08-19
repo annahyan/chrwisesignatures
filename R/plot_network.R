@@ -17,7 +17,7 @@
 
 plot_network <- function(adjacency_matrix, min_threshold = 0.2, layout) {
 
-    if (is.missing(layout) ) {
+    if (missing(layout) ) {
         layout = "kk"
     }
 
