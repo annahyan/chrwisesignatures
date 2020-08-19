@@ -1,3 +1,20 @@
+#' Signature network from adjacency-like matrix
+#'
+#' @details 
+#' Network representation of signature interaction matrix. The edges are colored
+#' based on interaction sign and value.
+#'
+#' @param adjacency_matrix A sparse matrix with values values indicating the
+#' strength and direction of interaction. Correlations, adjacencies, etc.
+#'
+#' @param min_threshold All values with less absolute value than min_threshold
+#' will be set to 0. Default: 0.2
+#'
+#' @param layout Layout passed to ggraph. Default: kk.
+#' 
+#' @export
+
+
 plot_network <- function(adjacency_matrix, min_threshold = 0.2, layout) {
 
     if (is.missing(layout) ) {
