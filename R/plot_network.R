@@ -15,6 +15,8 @@
 #' set to 0 before network construction. Default: FALSE.
 #' 
 #' @param layout Layout passed to ggraph. Default: kk.
+#'
+#' @import igraph
 #' 
 #' @export
 
@@ -25,6 +27,9 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
         layout = "kk"
     }
 
+    if (all(adjacency_matrix[upper.tri(adjacency_matrix)] ) == 0 ) {
+         return(ggplot() + geom_void()) # return empty ggplot
+    }
 
     graph.input = adjacency_matrix
     graph.input[ abs(graph.input) < min_threshold ] = 0
