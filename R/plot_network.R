@@ -27,8 +27,8 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
         layout = "kk"
     }
 
-    if (all(adjacency_matrix[upper.tri(adjacency_matrix)] ) == 0 ) {
-         return(ggplot() + geom_void()) # return empty ggplot
+    if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  == 0 ) ) {
+         return(ggplot() + theme_void()) # return empty ggplot
     }
 
     graph.input = adjacency_matrix
