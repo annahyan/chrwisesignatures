@@ -4,7 +4,12 @@
 \alias{plot_network}
 \title{Signature network from adjacency-like matrix}
 \usage{
-plot_network(adjacency_matrix, min_threshold = 0.2, layout)
+plot_network(
+  adjacency_matrix,
+  min_threshold = 0.2,
+  binary_matrix = FALSE,
+  layout
+)
 }
 \arguments{
 \item{adjacency_matrix}{A sparse matrix with values values indicating the
@@ -12,6 +17,10 @@ strength and direction of interaction. Correlations, adjacencies, etc.}
 
 \item{min_threshold}{All values with less absolute value than min_threshold
 will be set to 0. Default: 0.2}
+
+\item{binary_matrix}{If binary, the links are constructed from values 1.
+Otherwise the matrix is considered a correlation matrix and all 0 values are
+set to 0 before network construction. Default: FALSE.}
 
 \item{layout}{Layout passed to ggraph. Default: kk.}
 }

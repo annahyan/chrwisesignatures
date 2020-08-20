@@ -41,7 +41,6 @@ cor_sigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     
     if(p.adjust) corPvals = p.adjust(corPvals, method = "BH") 
 
-        
     corav[corPvals > p.val ] = 0
     corav[lower.tri(corav)] <- t(corav)[lower.tri(corav)]
     diag(corav) <- 1
