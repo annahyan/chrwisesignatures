@@ -27,7 +27,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
         layout = "kk"
     }
 
-    if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  == 0 ) ) {
+    if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  <=  min_threshold ) ) {
          return(ggplot() + theme_void()) # return empty ggplot
     }
 
