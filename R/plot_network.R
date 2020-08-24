@@ -55,15 +55,21 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
     
     E(graph)$edgewidth = abs(E(graph)$intensity) 
 
-    P = ggraph(graph, layout = layout) + 
-        geom_edge_link(aes(color = intensity, width = edgewidth)) + 
-        scale_edge_color_gradient2(low = rgb(0, 140, 160, maxColorValue = 255), 
-                                   high = rgb(210, 50, 60, maxColorValue = 255)) + 
-        scale_edge_width(range = c(0.8, 1.3), guide = FALSE) +
-        geom_node_point() + 
-        expand_limits(x = c(0, 4))+
+    P = ggraph(graph, layout = layout)
+    if ( binary_matrix ) {
+        P = P +  geom_edge_link(color = 'black')
+    } else {
+        P = P + geom_edge_link(aes(color = intensity, width = edgewidth)) + 
+            scale_edge_color_gradient2(low = rgb(0, 140, 160, maxColorValue = 255), 
+                                       high = rgb(210, 50, 60, maxColorValue = 255)) + 
+            scale_edge_width(range = c(0.8, 1.3), guide = FALSE) +
+            expand_limits(x = c(0, 4))
+        
+            }
+    P = P + geom_node_point() + 
         geom_node_label(aes(label = label)) +
         theme_void() +
         theme(legend.position = "right", legend.title =element_blank() )
     return(P)
+    
 }
