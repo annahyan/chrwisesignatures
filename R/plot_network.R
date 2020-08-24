@@ -56,7 +56,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
     E(graph)$edgewidth = abs(E(graph)$intensity) 
 
     P = ggraph(graph, layout = layout)
-    if ( binary_matrix ) {
+    if ( binary_matrix | nlevels(factor(E(graph)$intensity) == 1)  ) {
         P = P +  geom_edge_link(color = 'black')
     } else {
         P = P + geom_edge_link(aes(color = intensity, width = edgewidth)) + 
