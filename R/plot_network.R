@@ -17,6 +17,7 @@
 #' @param layout Layout passed to ggraph. Default: kk.
 #'
 #' @import igraph
+#' @import ggraph
 #' 
 #' @export
 
