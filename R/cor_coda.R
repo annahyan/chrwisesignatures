@@ -40,6 +40,9 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
         Z.av[, 2] <- p1 * (log(x[, 2]/(x[, 1]^p4 * p2^p3)))
         return(Z.av)
     }
+
+    x = x[ , colSums(x) > 0 ]
+    
     ind <- c(1:ncol(x))
     corZav <- matrix(NA, ncol(x), ncol(x))
     corPvals <- matrix(NA, ncol(x), ncol(x))
