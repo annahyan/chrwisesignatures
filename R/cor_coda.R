@@ -41,8 +41,7 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
         return(Z.av)
     }
 
-    x = x[ , colSums(x) > 0 ]
-    
+
     ind <- c(1:ncol(x))
     corZav <- matrix(NA, ncol(x), ncol(x))
     corPvals <- matrix(NA, ncol(x), ncol(x))
