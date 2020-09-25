@@ -29,26 +29,29 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
     }
 
     if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  <=  min_threshold ) ) {
-         return(ggplot() + theme_void()) # return empty ggplot
+        return(ggplot() + theme_void
+        ()) # return empty ggplot
     }
 
     graph.input = adjacency_matrix
     graph.input[ abs(graph.input) < min_threshold ] = 0
 
-    if( ! binary_matrix ) {
-        graph.input[graph.input == 1] = 0
-    }
+    ## if( ! binary_matrix ) {
+    ##     graph.input[graph.input == 1] = 0
+    ## }
+
+    diag(graph.input) = 0
     
     graph.input[abs(graph.input) >= min_threshold ] = 1
 
     ## adjacency_matrix[ abs(adjacency_matrix) < 0.2 ]
 
     sig.adjacency = graph.adjacency(graph.input)
-    
+
     graph <- graph_from_data_frame(get.edgelist(sig.adjacency) )
 
     V(graph)$label = V(graph)$name
-    E(graph)$intensity = sapply( 1:length(E(graph)), 
+    E(graph)$intensity = sapply( 1:length(E(graph)),
                                 function(x) {
                                     gends = ends(graph, x)
                                     adjacency_matrix[gends[1], gends[2] ] 
