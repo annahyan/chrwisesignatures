@@ -32,11 +32,9 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
     }
     
     if (missing(expand_limits)) {
-        exp_lims = c(0, 1)
-    } else {
-        exp_lims = expand_limits
+        expand_limits = c(0, 1)
     }
-
+    
     if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  <=  min_threshold ) ) {
         return(ggplot() + theme_void
         ()) # return empty ggplot
@@ -76,7 +74,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
             scale_edge_color_gradient2(low = rgb(0, 140, 160, maxColorValue = 255), 
                                        high = rgb(210, 50, 60, maxColorValue = 255)) + 
             scale_edge_width(range = c(0.8, 1.3), guide = FALSE) +
-            expand_limits( x = exp_lims)
+            expand_limits( x = expand_limits)
         
             }
     P = P + geom_node_point() + 
