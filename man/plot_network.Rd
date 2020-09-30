@@ -8,7 +8,8 @@ plot_network(
   adjacency_matrix,
   min_threshold = 0.2,
   binary_matrix = FALSE,
-  layout
+  layout,
+  expand_limits
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ Otherwise the matrix is considered a correlation matrix and all 0 values are
 set to 0 before network construction. Default: FALSE.}
 
 \item{layout}{Layout passed to ggraph. Default: kk.}
+
+\item{expand_limits}{Argument to control the expansion across x axis.
+Default: c(0, 1)}
 }
 \description{
 Signature network from adjacency-like matrix

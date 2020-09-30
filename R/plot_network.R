@@ -16,16 +16,23 @@
 #' 
 #' @param layout Layout passed to ggraph. Default: kk.
 #'
+#' @param expand_limits Argument to control the expansion across x axis.
+#' Default: c(0, 1)
+#' 
 #' @import igraph
 #' @import ggraph
 #' 
 #' @export
 
 
-plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = FALSE, layout) {
+plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = FALSE, layout, expand_limits) {
 
     if (missing(layout) ) {
         layout = "kk"
+    }
+    
+    if (missing(expand_limits)) {
+        exp_lims = c(0, 1)
     }
 
     if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  <=  min_threshold ) ) {
@@ -67,7 +74,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
             scale_edge_color_gradient2(low = rgb(0, 140, 160, maxColorValue = 255), 
                                        high = rgb(210, 50, 60, maxColorValue = 255)) + 
             scale_edge_width(range = c(0.8, 1.3), guide = FALSE) +
-            expand_limits(x = c(0, 2))
+            expand_limits( x = exp_limits)
         
             }
     P = P + geom_node_point() + 
