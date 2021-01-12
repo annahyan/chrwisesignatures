@@ -18,12 +18,7 @@
 #' @export
 
 
-cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi,  ...) {
-
-
-    if ( ! missing(mi) ) {
-        mi = TRUE
-    } 
+cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) 
         stop("all elements of x must be greater than 0")
