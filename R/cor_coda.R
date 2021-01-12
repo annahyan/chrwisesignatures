@@ -23,11 +23,10 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi,  ...) {
 
     if ( ! missing(mi) ) {
         mi = TRUE
-    } else {
+    } 
 
-        if (any(x[!is.na(x)] <= 0)) 
-            stop("all elements of x must be greater than 0")
-    }
+    if (any(x[!is.na(x)] <= 0)) 
+        stop("all elements of x must be greater than 0")
     
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
