@@ -64,7 +64,7 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
                 mi.out = mpmi::cmi(balZavout[,1], balZavout[, 2])
 
                 corZav[i, j] <- mi.out$bcmi
-                corPvals[i, j] <- 2 * ( -abs( mi.out$zscore ))
+                corPvals[i, j] <- 2 * ( -abs( min(abs(mi.out$zscore), 100) ))
                 
             } else { ### cor.test is used instead
                 
