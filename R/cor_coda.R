@@ -23,13 +23,14 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi,  ...) {
 
     if ( ! missing(mi) ) {
         mi = TRUE
+    } else {
+
+        if (any(x[!is.na(x)] <= 0)) 
+            stop("all elements of x must be greater than 0")
     }
     
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
-    
-    if (any(x[!is.na(x)] <= 0)) 
-        stop("all elements of x must be greater than 0")
     
     if (ncol(x) <= 2) 
         stop("calculation of average symmetric coordinates not possible")
@@ -76,7 +77,6 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi,  ...) {
                 
                 corout = cor.test(balZavout[,1], balZavout[, 2], ...)
                 corPvals[i, j]  <-  corout$p.value
-
                 corZav[i, j] <- corout$estimate
             }
         }
