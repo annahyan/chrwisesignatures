@@ -61,10 +61,10 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
 
             if (mi == TRUE) { ### check if the mpmi MI calculation should be used
 
-                mi.out = mpmi::cmi(balZavout[,1], balZavout[, 2])
+                mi.out = mpmi::cmi(balZavout)
 
-                corZav[i, j] <- mi.out$bcmi[1,1]
-                corPvals[i, j] <- 2 * ( -abs( min(abs(mi.out$zvalues[1,1]), 100) ))
+                corZav[i, j] <- mi.out$bcmi[1,2]
+                corPvals[i, j] <- 2 * ( -abs( min(abs(mi.out$zvalues[1,2]), 100) ))
                 
             } else { ### cor.test is used instead
                 
