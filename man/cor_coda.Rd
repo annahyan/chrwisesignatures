@@ -4,7 +4,7 @@
 \alias{cor_coda}
 \title{Pairwise signature correlations from symmetric pivot coordinates}
 \usage{
-cor_coda(x, p.val = 0.05, p.adjust = TRUE, ...)
+cor_coda(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE, ...)
 }
 \arguments{
 \item{x}{Data.frame or a matrix of signature intensities(or counts).
