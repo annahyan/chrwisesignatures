@@ -10,7 +10,8 @@ Authors@R:
 Description: What the package does (one paragraph).
 Imports:
 	mpmi,
-	ggraph
+	ggraph,
+	visNetwork
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8
