@@ -35,7 +35,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
         expand_limits = c(0, 1)
     }
     
-    if (all( adjacency_matrix[upper.tri(adjacency_matrix)]  <=  min_threshold ) ) {
+    if (all( abs(adjacency_matrix[upper.tri(adjacency_matrix)])  <=  min_threshold ) ) {
         return(ggplot() + theme_void
         ()) # return empty ggplot
     }
