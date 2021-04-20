@@ -27,26 +27,28 @@ mut_matrix_chr  <-  function( chr_split_grangeslist, ref_genome, n_cores) {
 
     samples_list <- mclapply (as.list(chr_split_grangeslist), function (sample_chr_vcfs)
     {
-        sample_chr_rows   <-  lapply (sample_chr_vcfs, function(chr_vcf) {
-            type_context  <-  type_context(chr_vcf, ref_genome)
-            row  <- mut_96_occurrences(type_context)
-            return(row)
-        }
-        )
+        ## sample_chr_rows   <-  lapply (sample_chr_vcfs, function(chr_vcf) {
+        ##     type_context  <-  type_context(chr_vcf, ref_genome)
+        ##     row  <- mut_96_occurrences(type_context)
+        ##     return(row)
+        ## }
+        ## )
 
-        df = data.frame()
+        ## df = data.frame()
 
-        ## Merge the rows into a dataframe.
-        for (row in sample_chr_rows)
-        {
-            if (class (row) == "try-error") stop (row)
-            df = rbind (df, row)
-        }
+        ## ## Merge the rows into a dataframe.
+        ## for (row in sample_chr_rows)
+        ## {
+        ##     if (class (row) == "try-error") stop (row)
+        ##     df = rbind (df, row)
+        ## }
         
-        colnames(df) = names(row)
-        rownames(df) = names(sample_chr_vcfs)
+        ## colnames(df) = names(row)
+        ## rownames(df) = names(sample_chr_vcfs)
         
-        return(df)
+        ## return(df)
+
+        mut_matrix(sample_chr_vcfs, ref_genome)
         
     }, mc.cores = n_cores)
     
