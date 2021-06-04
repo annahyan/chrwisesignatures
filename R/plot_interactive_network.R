@@ -58,7 +58,7 @@ plot_interactive_network <- function(adjacency_matrix,
     
     edges = data$edges
 
-
+    
     edges$intensity = sapply( 1:length(E(graph)),
                                 function(x) {
                                     gends = ends(graph, x)
@@ -78,6 +78,7 @@ plot_interactive_network <- function(adjacency_matrix,
         edges$color =  col.edges[ (edges$intensity > 0) + 1 ] 
             }
 
-    visNetwork(nodes, edges) %>% visIgraphLayout(layout = layout_custom) 
+    visNetwork(nodes, edges) %>% visIgraphLayout(layout = layout_custom) %>%
+        visLegend()
 }
 
