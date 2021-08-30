@@ -40,8 +40,7 @@ plot_network <- function(adjacency_matrix,
     }
     
     if (all( abs(adjacency_matrix[upper.tri(adjacency_matrix)])  <=  min_threshold ) ) {
-        return(ggplot() + theme_void
-        ()) # return empty ggplot
+        return(ggplot() + theme_void ()) # return empty ggplot
     }
 
     graph.input = adjacency_matrix
