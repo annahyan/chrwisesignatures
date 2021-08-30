@@ -25,7 +25,11 @@
 #' @export
 
 
-plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = FALSE, layout, expand_limits) {
+plot_network <- function(adjacency_matrix,
+                         min_threshold = 0.2,
+                         binary_matrix = FALSE,
+                         layout,
+                         expand_limits) {
 
     if (missing(layout) ) {
         layout = "kk"
@@ -79,7 +83,7 @@ plot_network <- function(adjacency_matrix, min_threshold = 0.2, binary_matrix = 
         P = P + geom_edge_link(aes(color = intensity, width = edgewidth)) + 
             scale_edge_color_gradient2(low = rgb(0, 140, 160, maxColorValue = 255), 
                                        high = rgb(210, 50, 60, maxColorValue = 255)) + 
-            scale_edge_width(range = c(0.8, 1.3), guide = FALSE) +
+            scale_edge_width(range = c(0.8, 1.3), guide = "none") +
             expand_limits( x = expand_limits)
         
             }
