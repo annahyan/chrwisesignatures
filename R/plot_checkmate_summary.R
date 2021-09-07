@@ -24,7 +24,7 @@ plot_checkmate_summary = function(estimate.list) {
 
     ## setting invariants 
 
-    myPalette <- colorRampPalette(rev(RcolorBrewer::brewer.pal(11, "RdBu")))
+    myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))
     sc <- scale_fill_gradientn(colours = myPalette(100), limits=c(-1, 1))
 
     ## learning some parameters
