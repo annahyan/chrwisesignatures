@@ -54,7 +54,7 @@ plot_checkmate_summary = function(estimate.list) {
             pp = smp.line %>%
                 matrix(ncol = mini.square.size) %>%
                 as.data.frame() %>%
-                rownames_to_column() %>%
+                tibble::rownames_to_column() %>%
                 tidyr::pivot_longer(-c(rowname)) %>%
                 ggplot(aes(x = rowname, y = name)) +
                 geom_tile(aes(fill = value), color = 'gray90') +
