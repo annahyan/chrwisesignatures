@@ -16,7 +16,7 @@
 #' @param estimate.list List of repeated correlation estimates between signatures
 #'
 #' @import dplyr
-#' @import tidyr
+#' @import tidyverse
 #' @import ggplot2
 #' 
 #' @export
