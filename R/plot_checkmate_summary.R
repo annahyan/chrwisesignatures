@@ -88,7 +88,7 @@ plot_checkmate_summary = function(estimate.list) {
         ggs[[(active.squares + sig.lengths - 2  + i )]] = grid::textGrob(colnames(smp.mat)[i])
     }
 
-    gout = grid.arrange(grobs = ggs, layout_matrix = layout.mat)
+    gout = gridExtra::grid.arrange(grobs = ggs, layout_matrix = layout.mat)
 
     return(gout)
 }
