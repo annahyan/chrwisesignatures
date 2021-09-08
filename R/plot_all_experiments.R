@@ -21,7 +21,7 @@
 #' 
 #' @export
 
-plot_checkmate_summary = function(estimate.list, title) {
+plot_all_experiments = function(all.estimates, title) {
 
     ## setting invariants 
 
@@ -30,6 +30,8 @@ plot_checkmate_summary = function(estimate.list, title) {
 
     ## learning some parameters
 
+    estimate.list = all.estimates[[1]]
+    
     sig.dims = dim( estimate.list[[1]] )
     
     sig.lengths = sig.dims[1]
@@ -38,6 +40,8 @@ plot_checkmate_summary = function(estimate.list, title) {
 
     mini.square.size = ceiling(sqrt(length(estimate.list)))
     smp.mat = estimate.list[[1]]
+
+    exp.count.row = ceiling(sqrt(length(all.estimates)))
     
     ##     text.grobs = lapply(colnames(smp.mat), grid::textGrob)
     
@@ -48,23 +52,28 @@ plot_checkmate_summary = function(estimate.list, title) {
 
     for (i in 1:(sig.lengths - 1)) {
         for (j in (i+1):sig.lengths) {
-            
-            smp.line = sapply(estimate.list, function(x) x[i,j])
-            
-            pp = smp.line %>%
-                matrix(ncol = mini.square.size) %>%
-                as.data.frame() %>%
-                tibble::rownames_to_column() %>%
-                tidyr::pivot_longer(-c(rowname)) %>%
-                ggplot(aes(x = rowname, y = name)) +
-                geom_tile(aes(fill = value), color = 'gray90') +
-                sc + theme_void() +
-                theme(legend.position = "none")
+
+            pps = lapply(all.estimates, function (estimate.list) {
+                smp.line = sapply(estimate.list, function(x) x[i,j])
+                
+                pp = smp.line %>%
+                    matrix(ncol = mini.square.size) %>%
+                    as.data.frame() %>%
+                    tibble::rownames_to_column() %>%
+                    tidyr::pivot_longer(-c(rowname)) %>%
+                    ggplot(aes(x = rowname, y = name)) +
+                    geom_raster(aes(fill = value)) +
+                    sc + theme_void() +
+                    theme(legend.position = "none")
+            } ) 
+
+            pps.arranged = arrangeGrob(grobs = pps, nrow = exp.count.row)
+
             k = k+1
-            ggs[[k]] = pp
+            ggs[[k]] = pps.arranged
         }
     }
-
+    ##  return(pps.arranged)
     layout.mat = matrix(NA, ncol = sig.lengths, nrow = sig.lengths)
 
     layout.mat[lower.tri(layout.mat)] = 1:active.squares
