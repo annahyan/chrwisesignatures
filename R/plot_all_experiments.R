@@ -25,6 +25,11 @@ plot_all_experiments = function(all.estimates, title) {
 
     ## setting invariants 
 
+    if (missing(title)) {
+        stop("title is missing.")
+    }
+         
+    
     myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))
     sc <- scale_fill_gradientn(colours = myPalette(100), limits=c(-1, 1))
 
