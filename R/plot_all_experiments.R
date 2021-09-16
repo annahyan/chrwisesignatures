@@ -67,7 +67,7 @@ plot_all_experiments = function(all.estimates, title) {
                     theme(legend.position = "none")
             } ) 
 
-            pps.arranged = arrangeGrob(grobs = pps, nrow = exp.count.row)
+            pps.arranged = gridExtra::arrangeGrob(grobs = pps, nrow = exp.count.row)
 
             k = k+1
             ggs[[k]] = pps.arranged
