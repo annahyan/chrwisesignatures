@@ -83,7 +83,7 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
 
             pps.arranged = gridExtra::arrangeGrob(grobs = pps, nrow = exp.count.row)
 
-            pps.arranged.rect = grid::gTree(children = gList(pps.arranged, rect))
+            pps.arranged.rect = grid::gTree(children = grid::gList(pps.arranged, rect))
             k = k+1
             ggs[[k]] = pps.arranged.rect
         }
