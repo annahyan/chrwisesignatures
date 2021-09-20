@@ -39,7 +39,7 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
     sc <- scale_fill_gradientn(colours = myPalette(100), limits=c(-1, 1))
 
     rect = grid::grid.rect(.5,.5,width=unit(.99,"npc"), height=unit(0.99,"npc"), 
-                           gp=gpar(lwd=rect.lwd, fill=NA, col="black"), draw = FALSE)
+                           gp=grid::gpar(lwd=rect.lwd, fill=NA, col="black"), draw = FALSE)
     
     
     ## learning some parameters
