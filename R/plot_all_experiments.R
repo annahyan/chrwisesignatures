@@ -64,6 +64,10 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
     ggs = list()
     k = 0
 
+    if (sig.lengths < 3 ) {
+        next
+    } 
+    
     for (i in 1:(sig.lengths - 1)) {
         for (j in (i+1):sig.lengths) {
             pps = lapply(all.estimates, function (estimate.list) {
