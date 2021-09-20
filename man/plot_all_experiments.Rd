@@ -2,15 +2,19 @@
 % Please edit documentation in R/plot_all_experiments.R
 \name{plot_all_experiments}
 \alias{plot_all_experiments}
-\title{Function plots repeated estimates of correlation coefficients between
-mutational singnatures}
+\title{Plots repeated estimates of correlation coefficients between mutational
+signatures}
 \usage{
-plot_all_experiments(all.estimates, title)
+plot_all_experiments(all.estimates, title, rect.lwd)
 }
 \arguments{
-\item{estimate.list}{List of repeated correlation estimates between signatures}
+\item{title}{Plot title. Required.}
+
+\item{rect.lwd}{Line width around rectangles. Default: 0.8.}
+
+\item{estimate.list}{List of repeated correlation estimates between signatures. Required.}
 }
 \description{
-Function plots repeated estimates of correlation coefficients between
-mutational singnatures
+Plots repeated estimates of correlation coefficients between mutational
+signatures
 }

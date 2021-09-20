@@ -10,10 +10,12 @@
 ## smp.mat = a[[1]][[1]]
 ## sig.dims = dim(smp.mat)
 
-#' Function plots repeated estimates of correlation coefficients between
-#' mutational singnatures
+#' Plots repeated estimates of correlation coefficients between mutational
+#' signatures
 #' 
-#' @param estimate.list List of repeated correlation estimates between signatures
+#' @param estimate.list List of repeated correlation estimates between signatures. Required.
+#' @param title Plot title. Required.
+#' @param rect.lwd Line width around rectangles. Default: 0.8.
 #'
 #' @import dplyr
 #' @import tidyverse
@@ -21,18 +23,25 @@
 #' 
 #' @export
 
-plot_all_experiments = function(all.estimates, title) {
+plot_all_experiments = function(all.estimates, title, rect.lwd) {
 
     ## setting invariants 
 
     if (missing(title)) {
         stop("title is missing.")
     }
-         
+
+    if (missing(rect.lwd)) {
+        rect.lwd = 0.8
+    }
     
     myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))
     sc <- scale_fill_gradientn(colours = myPalette(100), limits=c(-1, 1))
 
+    rect = grid::grid.rect(.5,.5,width=unit(.99,"npc"), height=unit(0.99,"npc"), 
+                           gp=gpar(lwd=rect.lwd, fill=NA, col="black"), draw = FALSE)
+    
+    
     ## learning some parameters
 
     estimate.list = all.estimates[[1]]
@@ -57,7 +66,6 @@ plot_all_experiments = function(all.estimates, title) {
 
     for (i in 1:(sig.lengths - 1)) {
         for (j in (i+1):sig.lengths) {
-
             pps = lapply(all.estimates, function (estimate.list) {
                 smp.line = sapply(estimate.list, function(x) x[i,j])
                 
@@ -69,13 +77,15 @@ plot_all_experiments = function(all.estimates, title) {
                     ggplot(aes(x = rowname, y = name)) +
                     geom_raster(aes(fill = value)) +
                     sc + theme_void() +
-                    theme(legend.position = "none")
-            } ) 
+                    theme(legend.position = "none",
+                          panel.border = element_rect(colour = "gray90", fill = NA, size = 0.5))
+            } )
 
             pps.arranged = gridExtra::arrangeGrob(grobs = pps, nrow = exp.count.row)
 
+            pps.arranged.rect = grid::gTree(children = gList(pps.arranged, rect))
             k = k+1
-            ggs[[k]] = pps.arranged
+            ggs[[k]] = pps.arranged.rect
         }
     }
     ##  return(pps.arranged)
@@ -103,7 +113,7 @@ plot_all_experiments = function(all.estimates, title) {
     }
 
     gout = gridExtra::grid.arrange(grobs = ggs, layout_matrix = layout.mat,
-                                   top = grid::textGrob(title))
+                                   top = grid::textGrob(title), padding = unit(1, "line"))
 
     return(gout)
 }
