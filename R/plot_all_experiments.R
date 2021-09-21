@@ -23,7 +23,7 @@
 #' 
 #' @export
 
-plot_all_experiments = function(all.estimates, title, rect.lwd) {
+plot_all_experiments = function(all.estimates, title, rect.lwd, mc.cores) {
 
     ## setting invariants 
 
@@ -33,6 +33,10 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
 
     if (missing(rect.lwd)) {
         rect.lwd = 0.8
+    }
+
+    if (missing(mc.cores)) {
+        mc.cores = 1
     }
     
     myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))
@@ -70,7 +74,7 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
     
     for (i in 1:(sig.lengths - 1)) {
         for (j in (i+1):sig.lengths) {
-            pps = lapply(all.estimates, function (estimate.list) {
+            pps = parallel::mclapply(all.estimates, function (estimate.list) {
                 smp.line = sapply(estimate.list, function(x) x[i,j])
                 
                 pp = smp.line %>%
@@ -83,7 +87,7 @@ plot_all_experiments = function(all.estimates, title, rect.lwd) {
                     sc + theme_void() +
                     theme(legend.position = "none",
                           panel.border = element_rect(colour = "gray90", fill = NA, size = 0.5))
-            } )
+            }, mc.cores = mc.cores)
 
             pps.arranged = gridExtra::arrangeGrob(grobs = pps, nrow = exp.count.row)
 
