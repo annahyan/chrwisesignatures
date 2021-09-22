@@ -45,19 +45,22 @@ plot_all_experiments = function(all.estimates, title, rect.lwd, mc.cores) {
     rect = grid::grid.rect(.5,.5,width=unit(.99,"npc"), height=unit(0.99,"npc"), 
                            gp=grid::gpar(lwd=rect.lwd, fill=NA, col="black"), draw = FALSE)
     
+
+    ## Simplifying the experiments
+
+    simplify_by_exp = lapply(all.estimates, simplify2array)
+    all_simplified = simplify2array(simplify_by_exp)
     
     ## learning some parameters
 
-    estimate.list = all.estimates[[1]]
-    
-    sig.dims = dim( estimate.list[[1]] )
+    sig.dims = dim( all_simplified ) [1]
     
     sig.lengths = sig.dims[1]
     
     active.squares = sig.lengths * (sig.lengths - 1) / 2
 
-    mini.square.size = ceiling(sqrt(length(estimate.list)))
-    smp.mat = estimate.list[[1]]
+    mini.square.size = ceiling( sqrt( dim(all_simplified)[3] ) )
+    smp.mat = all.estimates[[1]][[1]]
 
     exp.count.row = ceiling(sqrt(length(all.estimates)))
     
@@ -74,8 +77,12 @@ plot_all_experiments = function(all.estimates, title, rect.lwd, mc.cores) {
     
     for (i in 1:(sig.lengths - 1)) {
         for (j in (i+1):sig.lengths) {
-            pps = parallel::mclapply(all.estimates, function (estimate.list) {
-                smp.line = sapply(estimate.list, function(x) x[i,j])
+            cat(i, j, "\n")
+
+            ptm = proc.time()
+
+            pps = lapply( 1:dim(all_simplified)[4], function (exp_iter) {
+                smp.line = all_simplified[i,j, ,exp_iter]
                 
                 pp = smp.line %>%
                     matrix(ncol = mini.square.size) %>%
@@ -87,13 +94,16 @@ plot_all_experiments = function(all.estimates, title, rect.lwd, mc.cores) {
                     sc + theme_void() +
                     theme(legend.position = "none",
                           panel.border = element_rect(colour = "gray90", fill = NA, size = 0.5))
-            }, mc.cores = mc.cores)
+            })
 
+            print(proc.time() - ptm)
+            
             pps.arranged = gridExtra::arrangeGrob(grobs = pps, nrow = exp.count.row)
 
             pps.arranged.rect = grid::gTree(children = grid::gList(pps.arranged, rect))
             k = k+1
             ggs[[k]] = pps.arranged.rect
+            rm(pps)
         }
     }
     ##  return(pps.arranged)

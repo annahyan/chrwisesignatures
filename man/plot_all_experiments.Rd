@@ -5,7 +5,7 @@
 \title{Plots repeated estimates of correlation coefficients between mutational
 signatures}
 \usage{
-plot_all_experiments(all.estimates, title, rect.lwd)
+plot_all_experiments(all.estimates, title, rect.lwd, mc.cores)
 }
 \arguments{
 \item{title}{Plot title. Required.}
