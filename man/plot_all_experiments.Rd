@@ -8,14 +8,14 @@ signatures}
 plot_all_experiments(all.estimates, title, rect.lwd, col.lims)
 }
 \arguments{
+\item{all.estimates}{List of repeated correlation estimates between signatures. Required.}
+
 \item{title}{Plot title. Required.}
 
 \item{rect.lwd}{Line width around rectangles. Default: 0.8.}
 
 \item{col.lims}{Color limits vector to be passed to scale_fill_gradient.
 Default: c(-1, 1)}
-
-\item{estimate.list}{List of repeated correlation estimates between signatures. Required.}
 }
 \description{
 Plots repeated estimates of correlation coefficients between mutational

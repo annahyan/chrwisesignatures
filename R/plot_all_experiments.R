@@ -1,19 +1,7 @@
-## library(here)
-## library(grid)
-## library(lattice)
-## library(gridExtra)
-## library(tidyverse)
-## library(RColorBrewer)
-
-## a = readRDS(here('RDatas/checkmate.plot.input.RDS'))
-
-## smp.mat = a[[1]][[1]]
-## sig.dims = dim(smp.mat)
-
 #' Plots repeated estimates of correlation coefficients between mutational
 #' signatures
 #' 
-#' @param estimate.list List of repeated correlation estimates between signatures. Required.
+#' @param all.estimates List of repeated correlation estimates between signatures. Required.
 #' @param title Plot title. Required.
 #' @param rect.lwd Line width around rectangles. Default: 0.8.
 #' @param col.lims Color limits vector to be passed to scale_fill_gradient.
