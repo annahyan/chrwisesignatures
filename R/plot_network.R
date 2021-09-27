@@ -71,7 +71,7 @@ plot_network <- function(adjacency_matrix,
 
     P = ggraph(graph, layout = layout)
     if ( binary_matrix | nlevels(factor(E(graph)$intensity)) == 1  ) {
-        if ( unique(E(graph)$intensity) == 1 ) {    
+        if ( unique(E(graph)$intensity) > 0 ) {    
             col = rgb(210, 50, 60, maxColorValue = 255) # 1
         } else {
             
