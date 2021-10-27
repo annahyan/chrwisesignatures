@@ -6,9 +6,9 @@
 #' from the experiments where at least half of the values are non-zero. 
 #' 
 #' @param all.estimates List of repeated correlation estimates between signatures. Required.
-#' #@param title Plot title. Required.
-#' #@param rect.lwd Line width around rectangles. Default: 0.8.
-#' #@param col.lims Color limits vector to be passed to scale_fill_gradient.
+#' @param title Plot title. Required.
+#' @param rect.lwd Line width around rectangles. Default: 0.8.
+#' @param col.lims Color limits vector to be passed to scale_fill_gradient.
 #' Default: c(-1, 1)
 #'
 #' @import dplyr
