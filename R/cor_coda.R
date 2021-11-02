@@ -69,6 +69,7 @@ cor_coda = function(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  
             if (nrow(permuted_x) < 3 ) {
                 corPvals[i, j]  <-  1
                 corZav[i, j] <- 0
+                next
             }
             
             balZavout = balZav(permuted_x)
