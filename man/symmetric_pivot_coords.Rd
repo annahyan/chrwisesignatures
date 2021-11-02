@@ -2,7 +2,7 @@
 % Please edit documentation in R/symmetric_pivot_cords.R
 \name{symmetric_pivot_coords}
 \alias{symmetric_pivot_coords}
-\title{A function returning the input and the symmetric pivots for i-th and j-th cols}
+\title{A function returning the symmetric pivots for i-th and j-th cols}
 \usage{
 symmetric_pivot_coords(x, i, j, ...)
 }
@@ -15,9 +15,9 @@ Signatures need to correspond to columns.}
 \item{j}{Same as i}
 }
 \value{
-A list with the input, and the matrix, where the first two cols are the
+A matrix, where the first two cols are the
 symmetric coordinates
 }
 \description{
-A function returning the input and the symmetric pivots for i-th and j-th cols
+A function returning the symmetric pivots for i-th and j-th cols
 }

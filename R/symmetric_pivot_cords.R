@@ -1,4 +1,4 @@
-#' A function returning the input and the symmetric pivots for i-th and j-th cols
+#' A function returning the symmetric pivots for i-th and j-th cols
 #'
 #'
 #' @param x Data.frame or a matrix of signature intensities(or counts).
@@ -7,7 +7,7 @@
 #' @param i Index of a signature for which the pivots should be calculated
 #' @param j Same as i
 #'
-#' @return A list with the input, and the matrix, where the first two cols are the
+#' @return A matrix, where the first two cols are the
 #' symmetric coordinates
 #'
 #' @export
@@ -43,9 +43,10 @@ symmetric_pivot_coords = function(x, i, j,  ...) {
         return(Z.av)
     }
 
+    ind <- c(1:ncol(x))
     balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
 
-    return(list(input = x, symm.pivots = balZavout))
+    return(symm.pivots = balZavout)
 
     ## ind <- c(1:ncol(x))
     ## corZav <- matrix(NA, ncol(x), ncol(x))
