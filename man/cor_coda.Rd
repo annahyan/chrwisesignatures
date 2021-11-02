@@ -4,11 +4,15 @@
 \alias{cor_coda}
 \title{Pairwise signature correlations from symmetric pivot coordinates}
 \usage{
-cor_coda(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE, ...)
+cor_coda(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE, ...)
 }
 \arguments{
 \item{x}{Data.frame or a matrix of signature intensities(or counts).
 Signatures need to correspond to columns.}
+
+\item{min.mut}{Minimum number of mutations required from the signatures.
+Samples where both i-th and j-th signatures have less than this number of
+mutations are excluded before cor.test calculation.}
 
 \item{p.val}{All the correlations with >=p.val are set to 0.}
 

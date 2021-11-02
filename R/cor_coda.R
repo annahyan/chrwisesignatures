@@ -6,6 +6,10 @@
 #' @param x Data.frame or a matrix of signature intensities(or counts).
 #' Signatures need to correspond to columns.
 #'
+#' @param min.mut Minimum number of mutations required from the signatures.
+#' Samples where both i-th and j-th signatures have less than this number of
+#' mutations are excluded before cor.test calculation.
+#'
 #' @param p.val All the correlations with >=p.val are set to 0.
 #' @param p.adjust If TRUE, p.value adjustment with BH correction is applied
 #' before setting correlations with p.value >= p.val to 0.
@@ -18,7 +22,7 @@
 #' @export
 
 
-cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
+cor_coda = function(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) 
         stop("all elements of x must be greater than 0")
@@ -54,7 +58,20 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
     corPvals <- matrix(NA, ncol(x), ncol(x))
     for (i in 1:(ncol(x) - 1)) {
         for (j in (i + 1):ncol(x)) {
-            balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
+
+            permuted_x =  x[, c(i, j, ind[-c(i, j)])]
+            
+            ## Selecting only rows where at least one of the
+            ## signatures is positive (min.mut)
+            permuted_x = permuted_x[ permuted_x[,1] > min.mut |
+                                     permuted_x[,2] > min.mut, ]
+
+            if (nrow(permuted_x) < 3 ) {
+                corPvals[i, j]  <-  1
+                corZav[i, j] <- 0
+            }
+            
+            balZavout = balZav(permuted_x)
 
             balZavout = balZavout[is.finite(rowSums(balZavout)), ]
 
@@ -70,13 +87,16 @@ cor_coda = function(x, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
                 
                 
                 corout = cor.test(balZavout[,1], balZavout[, 2], ...)
+                
                 corPvals[i, j]  <-  corout$p.value
                 corZav[i, j] <- corout$estimate
             }
         }
     }
 
-    if(p.adjust) corPvals = p.adjust(corPvals, method = "BH")
+    if(p.adjust) {
+        corPvals = p.adjust(corPvals, method = "BH")
+    }
     
     corZav[corPvals > p.val ] = 0
     corZav[lower.tri(corZav)] <- t(corZav)[lower.tri(corZav)]
