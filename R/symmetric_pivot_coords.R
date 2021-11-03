@@ -48,7 +48,7 @@ symmetric_pivot_coords = function(x, i, j, rand.add = FALSE,  ...) {
     }
 
     ind <- c(1:ncol(x))
-    rearranged.x = x[, c(i, j, ind[-c(i, j)])
+    rearranged.x = x[, c(i, j, ind[-c(i, j)])]
     if (rand.add) {
         balZavout = balZav(rearranged.x)
     } else {
