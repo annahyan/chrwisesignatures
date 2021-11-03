@@ -7,13 +7,17 @@
 #' @param i Index of a signature for which the pivots should be calculated
 #' @param j Same as i
 #'
+#' @param rand.add if random noise was added to data, then rand.add = TRUE,
+#' otherwise rand.add = FALSE. If FALSE balZavout is calculated similar to
+#' coda_novel. Default: FALSE.
+#'
 #' @return A matrix, where the first two cols are the
 #' symmetric coordinates
 #'
 #' @export
 
 
-symmetric_pivot_coords = function(x, i, j,  ...) {
+symmetric_pivot_coords = function(x, i, j, rand.add = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) 
         stop("all elements of x must be greater than 0")
@@ -44,8 +48,19 @@ symmetric_pivot_coords = function(x, i, j,  ...) {
     }
 
     ind <- c(1:ncol(x))
-    balZavout = balZav(x[, c(i, j, ind[-c(i, j)])])
+    rearranged.x = x[, c(i, j, ind[-c(i, j)])
+    if (rand.add) {
+        balZavout = balZav(rearranged.x)
+    } else {
+        balZavout = apply( as.data.frame(rearranged.x), MARGIN = 1,
+                          function(rowvec) {
+                              if (rowvec[1] == 0 | rowvec[2] == 0 ) return(c(0,0))
+                              rowvec = rowvec[ which (rowvec > 0) ]
+                              if (length(rowvec) == 2) return(c(0,0))
+                              return(balZavRow(rowvec))
+                          } )
 
+    }
     return(symm.pivots = balZavout)
 
     ## ind <- c(1:ncol(x))
