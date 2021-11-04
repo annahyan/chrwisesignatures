@@ -24,7 +24,7 @@
 #' @export
 
 
-cor_coda = function(x, min.mut = 5, p.val = 0.05, rand.add = FALSE,
+cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
                     p.adjust = TRUE, mi = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) 
