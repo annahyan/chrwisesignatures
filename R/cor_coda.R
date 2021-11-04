@@ -67,6 +67,7 @@ cor_coda = function(x, min.mut = 5, p.val = 0.05, rand.add = FALSE,
                                       if (length(rowvec) == 2) return(c(0,0))
                                       return(balZavRow(rowvec))
                                   } ) %>% t()
+                balZavout = balZavout[rowSums(abs(balZavout)) > 0, ]
                 
             }
             
