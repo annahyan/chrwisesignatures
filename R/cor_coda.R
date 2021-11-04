@@ -60,7 +60,7 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
             if (rand.add) { ## If random noise was added, then symm_coords are
                 ## calculated for samples individually
                 ## ATM if one of the pair is 0, both are returned as 0
-                balZavout = apply( as.data.frame(rearranged.x), MARGIN = 1,
+                balZavout = apply( as.data.frame(permuted_x), MARGIN = 1,
                                   function(rowvec) {
                                       if (rowvec[1] == 0 | rowvec[2] == 0 ) return(c(0,0))
                                       rowvec = rowvec[ which (rowvec > 0) ]
@@ -69,12 +69,12 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
                                   } ) %>% t()
                 balZavout = balZavout[rowSums(abs(balZavout)) > 0, ]
                 
-            }
+            } else {
             
-            balZavout = balZav(permuted_x)
+                balZavout = balZav(permuted_x)
 
-            balZavout = balZavout[is.finite(rowSums(balZavout)), ]
-
+                balZavout = balZavout[is.finite(rowSums(balZavout)), ]
+            }
 
             if (mi == TRUE) { ### check if the mpmi MI calculation should be used
 
