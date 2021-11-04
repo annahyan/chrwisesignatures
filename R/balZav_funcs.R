@@ -1,3 +1,6 @@
+#' Getting symmetric pivot coordinates from a strictly positive matrix
+#' Used to calculate cor_coda with rand.add = TRUE
+
 balZav <- function(x) {
     D <- ncol(x)
     Z.av <- matrix(NA, ncol = 2, nrow = nrow(x))
@@ -16,6 +19,12 @@ balZav <- function(x) {
 
     return(Z.av)
 }
+
+#' Getting symmetric pivot coordinates from a matrix containing 0-values
+#' symmetric coordinates are calculated for one sample at a time using only
+#' strictly positive signatures.
+#' Used to calculate cor_coda with rand.add = FALSE
+
 
 balZavRow <- function(x) {
     D <- length(x)

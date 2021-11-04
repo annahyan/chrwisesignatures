@@ -9,11 +9,12 @@ Authors@R:
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 Imports:
-	mpmi,
-	ggraph,
-	visNetwork,
-	robCompositions,
-	philentropy
+    mpmi,
+    ggraph,
+    visNetwork,
+    robCompositions,
+    philentropy,
+    magrittr
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
     pick a license
 Encoding: UTF-8

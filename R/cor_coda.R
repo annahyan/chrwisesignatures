@@ -11,6 +11,8 @@
 #' mutations are excluded before cor.test calculation.
 #'
 #' @param p.val All the correlations with >=p.val are set to 0.
+#' @param rand.add If rand.add = TRUE, then the matrix is strictly positive,
+#' otherwise rand.add = FALSE(default). Check what you're  
 #' @param p.adjust If TRUE, p.value adjustment with BH correction is applied
 #' before setting correlations with p.value >= p.val to 0.
 #' @param ... arguments passed to cor.test
@@ -22,7 +24,8 @@
 #' @export
 
 
-cor_coda = function(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  ...) {
+cor_coda = function(x, min.mut = 5, p.val = 0.05, rand.add = FALSE,
+                    p.adjust = TRUE, mi = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) 
         stop("all elements of x must be greater than 0")
@@ -32,30 +35,11 @@ cor_coda = function(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  
     
     if (ncol(x) <= 2) 
         stop("calculation of average symmetric coordinates not possible")
-    
-    balZav <- function(x) {
-        D <- ncol(x)
-        Z.av <- matrix(NA, ncol = 2, nrow = nrow(x))
-        p1 <- sqrt(D - 1 + sqrt(D * (D - 2)))/sqrt(2 * D)
-        if (D == 3) {
-            p2 <- x[, 3]
-        }
-        else {
-            p2 <- apply(x[, 3:D], 1, prod)
-        }
-        p3 <- (sqrt(D - 2) + sqrt(D))/(sqrt(D - 2) * (D - 1 + 
-            sqrt(D * (D - 2))))
-        p4 <- 1/(D - 1 + sqrt(D * (D - 2)))
-        Z.av[, 1] <- p1 * (log(x[, 1]/(x[, 2]^p4 * p2^p3)))
-        Z.av[, 2] <- p1 * (log(x[, 2]/(x[, 1]^p4 * p2^p3)))
-
-        return(Z.av)
-    }
-
 
     ind <- c(1:ncol(x))
     corZav <- matrix(NA, ncol(x), ncol(x))
     corPvals <- matrix(NA, ncol(x), ncol(x))
+    
     for (i in 1:(ncol(x) - 1)) {
         for (j in (i + 1):ncol(x)) {
 
@@ -70,6 +54,20 @@ cor_coda = function(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE,  
                 corPvals[i, j]  <-  1
                 corZav[i, j] <- 0
                 next
+            }
+
+
+            if (rand.add) { ## If random noise was added, then symm_coords are
+                ## calculated for samples individually
+                ## ATM if one of the pair is 0, both are returned as 0
+                balZavout = apply( as.data.frame(rearranged.x), MARGIN = 1,
+                                  function(rowvec) {
+                                      if (rowvec[1] == 0 | rowvec[2] == 0 ) return(c(0,0))
+                                      rowvec = rowvec[ which (rowvec > 0) ]
+                                      if (length(rowvec) == 2) return(c(0,0))
+                                      return(balZavRow(rowvec))
+                                  } ) %>% t()
+                
             }
             
             balZavout = balZav(permuted_x)

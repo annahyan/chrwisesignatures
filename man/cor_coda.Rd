@@ -4,7 +4,15 @@
 \alias{cor_coda}
 \title{Pairwise signature correlations from symmetric pivot coordinates}
 \usage{
-cor_coda(x, min.mut = 5, p.val = 0.05, p.adjust = TRUE, mi = FALSE, ...)
+cor_coda(
+  x,
+  min.mut = 5,
+  p.val = 0.05,
+  rand.add = FALSE,
+  p.adjust = TRUE,
+  mi = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Data.frame or a matrix of signature intensities(or counts).
@@ -15,6 +23,9 @@ Samples where both i-th and j-th signatures have less than this number of
 mutations are excluded before cor.test calculation.}
 
 \item{p.val}{All the correlations with >=p.val are set to 0.}
+
+\item{rand.add}{If rand.add = TRUE, then the matrix is strictly positive,
+otherwise rand.add = FALSE(default). Check what you're}
 
 \item{p.adjust}{If TRUE, p.value adjustment with BH correction is applied
 before setting correlations with p.value >= p.val to 0.}

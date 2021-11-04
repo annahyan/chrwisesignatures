@@ -43,7 +43,7 @@ symmetric_pivot_coords = function(x, i, j, rand.add = FALSE,  ...) {
                               rowvec = rowvec[ which (rowvec > 0) ]
                               if (length(rowvec) == 2) return(c(0,0))
                               return(balZavRow(rowvec))
-                          } )
+                          } ) %>% t()
 
     }
     return(symm.pivots = balZavout)
