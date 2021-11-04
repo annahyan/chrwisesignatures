@@ -19,8 +19,11 @@
 
 symmetric_pivot_coords = function(x, i, j, rand.add = FALSE,  ...) {
 
-    if (any(x[!is.na(x)] <= 0)) 
-        stop("all elements of x must be greater than 0")
+    if (any(x[!is.na(x)] <= 0)) {
+        if (rand.add){
+            stop("all elements of x must be greater than 0")
+        }
+    }
     
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
