@@ -24,7 +24,7 @@
 #' @export
 
 
-cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
+cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
                     p.adjust = TRUE, mi = FALSE,  ...) {
 
     if (any(x[!is.na(x)] <= 0)) {
@@ -46,13 +46,11 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
     for (i in 1:(ncol(x) - 1)) {
         for (j in (i + 1):ncol(x)) {
 
-            permuted_x =  x[, c(i, j, ind[-c(i, j)])]
+            cat (i, j, "\n")
             
-            ## Selecting only rows where at least one of the
-            ## signatures is positive (min.mut)
-            permuted_x = permuted_x[ permuted_x[,1] > min.mut |
-                                     permuted_x[,2] > min.mut, ]
+            permuted_x =  x[, c(i, j, ind[-c(i, j)])]
 
+            
             if (nrow(permuted_x) < 3 ) {
                 corPvals[i, j]  <-  1
                 corZav[i, j] <- 0
@@ -60,9 +58,18 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
             }
 
 
-            if (rand.add) { ## If random noise was added, then symm_coords are
-                ## calculated for samples individually
+            if (rand.add) {
+                
+                balZavout = balZav(permuted_x)
+
+                ## balZavout = balZavout[is.finite(rowSums(balZavout)), ]
+                
+            } else {
+            
+                ## If random noise was not added, then symm_coords
+                ## are calculated for samples individually
                 ## ATM if one of the pair is 0, both are returned as 0
+                
                 balZavout = apply( as.data.frame(permuted_x), MARGIN = 1,
                                   function(rowvec) {
                                       if (rowvec[1] == 0 | rowvec[2] == 0 ) return(c(0,0))
@@ -72,13 +79,11 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
                                   } ) %>% t()
                 balZavout = balZavout[rowSums(abs(balZavout)) > 0, ]
                 
-            } else {
-            
-                balZavout = balZav(permuted_x)
-
-                balZavout = balZavout[is.finite(rowSums(balZavout)), ]
             }
 
+
+            if (nrow(balZavout) < 3) {} 
+            
             if (mi == TRUE) { ### check if the mpmi MI calculation should be used
 
                 mi.out = mpmi::cmi(balZavout)
@@ -88,7 +93,7 @@ cor_coda = function(x, min.mut = 0, p.val = 0.05, rand.add = FALSE,
                 
             } else { ### cor.test is used instead
                 
-                
+                print(balZavout)
                 corout = cor.test(balZavout[,1], balZavout[, 2], ...)
                 
                 corPvals[i, j]  <-  corout$p.value
