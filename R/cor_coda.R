@@ -46,7 +46,7 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
     for (i in 1:(ncol(x) - 1)) {
         for (j in (i + 1):ncol(x)) {
 
-            cat (i, j, "\n")
+            ## cat (i, j, "\n")
             
             permuted_x =  x[, c(i, j, ind[-c(i, j)])]
 
