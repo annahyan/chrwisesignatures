@@ -82,7 +82,7 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
             }
 
 
-            if (nrow(balZavout) < 3) {} 
+            ## if (nrow(balZavout) < 3) {} 
             
             if (mi == TRUE) { ### check if the mpmi MI calculation should be used
 
