@@ -99,7 +99,7 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
                 
             } else { ### cor.test is used instead
                 
-                print(balZavout)
+                ## print(balZavout)
                 corout = cor.test(balZavout[,1], balZavout[, 2], ...)
                 
                 corPvals[i, j]  <-  corout$p.value
