@@ -78,8 +78,11 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
                                       return(balZavRow(rowvec))
                                   } ) %>% t()
                 
+
                 balZavout = balZavout[rowSums(abs(balZavout)) > 0, , drop = FALSE]
 
+                balZavout = balZavout[is.finite(rowSums(balZavout)), ]
+                
                 if (nrow(balZavout) < 3 ) {
                     corPvals[i, j]  <-  1
                     corZav[i, j] <- 0
