@@ -81,7 +81,7 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
 
                 balZavout = balZavout[rowSums(abs(balZavout)) > 0, , drop = FALSE]
 
-                balZavout = balZavout[is.finite(rowSums(balZavout)), ]
+                balZavout = balZavout[is.finite(rowSums(balZavout)), , drop = FALSE]
                 
                 if (nrow(balZavout) < 3 ) {
                     corPvals[i, j]  <-  1
