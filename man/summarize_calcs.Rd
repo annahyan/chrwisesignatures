@@ -8,13 +8,6 @@ summarize_calcs(all.estimates)
 }
 \arguments{
 \item{all.estimates}{List of repeated correlation estimates between signatures. Required.}
-
-\item{title}{Plot title. Required.}
-
-\item{rect.lwd}{Line width around rectangles. Default: 0.8.}
-
-\item{col.lims}{Color limits vector to be passed to scale_fill_gradient.
-Default: c(-1, 1)}
 }
 \value{
 returns a symmetric matrix of signature interactions, diag is 0.

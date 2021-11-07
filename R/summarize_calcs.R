@@ -6,10 +6,6 @@
 #' from the experiments where at least half of the values are non-zero. 
 #' 
 #' @param all.estimates List of repeated correlation estimates between signatures. Required.
-#' @param title Plot title. Required.
-#' @param rect.lwd Line width around rectangles. Default: 0.8.
-#' @param col.lims Color limits vector to be passed to scale_fill_gradient.
-#' Default: c(-1, 1)
 #'
 #' @import dplyr
 #' @import tidyverse
@@ -23,12 +19,7 @@ summarize_calcs = function(all.estimates ) {
 
     simplify_by_exp = lapply(all.estimates, simplify2array)
     all_simplified = simplify2array(simplify_by_exp)
-
-
-    
-    simplify_by_exp = lapply(all.estimates, simplify2array)
-    all_simplified = simplify2array(simplify_by_exp)
-    
+   
     ## learning some parameters
 
     sig.dims = dim( all_simplified ) [1]
@@ -43,17 +34,10 @@ summarize_calcs = function(all.estimates ) {
     exp.count.row = ceiling(sqrt(length(all.estimates)))
 
     exp.length = length(all.estimates)
-    ##     text.grobs = lapply(colnames(smp.mat), grid::textGrob)
     
-    ## ggs is gonna be the list of plots
-
-    ggs = list()
     k = 0
 
-    if (sig.lengths < 3 ) {
-        next
-    } 
-
+    
     out.mat = matrix(0, ncol = sig.lengths, nrow = sig.lengths,
                      dimnames = list(rownames(smp.mat), colnames(smp.mat) ) )
     
