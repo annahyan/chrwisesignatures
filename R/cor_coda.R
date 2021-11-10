@@ -6,10 +6,6 @@
 #' @param x Data.frame or a matrix of signature intensities(or counts).
 #' Signatures need to correspond to columns.
 #'
-#' @param min.mut Minimum number of mutations required from the signatures.
-#' Samples where both i-th and j-th signatures have less than this number of
-#' mutations are excluded before cor.test calculation.
-#'
 #' @param p.val All the correlations with >=p.val are set to 0.
 #' @param rand.add If rand.add = TRUE, then the matrix is strictly positive,
 #' otherwise rand.add = FALSE(default). Check what you're  
@@ -118,5 +114,6 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
     corZav[corPvals > p.val ] = 0
     corZav[lower.tri(corZav)] <- t(corZav)[lower.tri(corZav)]
     diag(corZav) <- 1
+    
     return(corZav)
 }
