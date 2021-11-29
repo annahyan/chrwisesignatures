@@ -22,11 +22,19 @@ bcmi = function(x,  p.val = 0.05, p.adjust = TRUE) {
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
     
-    if (ncol(x) <= 2) 
-        stop("calculation of average symmetric coordinates not possible. Less than two columns.")
+    if (ncol(x) < 2) 
+        stop("Less than two columns provided. Execution stops.")
 
+    ## cmi doesn't work for columns which have only 0-valued elements
 
-    cmi_out = mpmi::cmi(x)
+    mci_out_mat = matrix(0, ncol = ncol(x), nrow = ncol(x))
+
+    zero_indeces = which(colSums(x) == 0)
+    calced_indeces = setdiff(1:ncol(x), zero_indeces)
+
+    x_cl = x[, colSums(x) > 0]
+    
+    cmi_out = mpmi::cmi(x_cl)
 
     bcmi_out = cmi_out$bcmi
     zvals_out = cmi_out$zvalues
@@ -42,8 +50,10 @@ bcmi = function(x,  p.val = 0.05, p.adjust = TRUE) {
     filtered_bcmi = bcmi_out
     filtered_bcmi[pvals > p.val] = 0
 
-    colnames(filtered_bcmi) = colnames(x)
-    rownames(filtered_bcmi) = colnames(x)
+    mci_out_mat[calced_indeces, calced_indeces] = filtered_bcmi
     
-    return(filtered_bcmi)
+    colnames(mci_out_mat) = colnames(x)
+    rownames(mci_out_mat) = colnames(x)
+    
+    return(mci_out_mat)
 }

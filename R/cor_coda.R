@@ -33,7 +33,7 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
         stop("x must be a matrix or data.frame")
     
     if (ncol(x) <= 2) 
-        stop("calculation of average symmetric coordinates not possible")
+        stop("Calculation of average symmetric coordinates not possible. 2 or less columns provided.")
 
     ind <- c(1:ncol(x))
     corZav <- matrix(NA, ncol(x), ncol(x))
