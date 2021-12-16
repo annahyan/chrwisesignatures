@@ -19,10 +19,6 @@ otherwise rand.add = FALSE(default). Check what you're}
 before setting correlations with p.value >= p.val to 0.}
 
 \item{...}{arguments passed to cor.test}
-
-\item{min.mut}{Minimum number of mutations required from the signatures.
-Samples where both i-th and j-th signatures have less than this number of
-mutations are excluded before cor.test calculation.}
 }
 \value{
 Signature correlation matrix

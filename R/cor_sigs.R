@@ -44,5 +44,9 @@ cor_sigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     corav[corPvals > p.val ] = 0
     corav[lower.tri(corav)] <- t(corav)[lower.tri(corav)]
     diag(corav) <- 1
+
+    colnames(corav) = colnames(x)
+    rownames(corav) = colnames(x)
+    
     return(corav)
 }
