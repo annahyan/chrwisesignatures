@@ -24,12 +24,20 @@ cor_sigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     ## if (ncol(x) <= 2) 
     ##     stop("calculation of average symmetric coordinates not possible")
 
-    ind <- c(1:ncol(x))
-    corav <- matrix(NA, ncol(x), ncol(x))
-    corPvals <- matrix(NA, ncol(x), ncol(x))
-    for (i in 1:(ncol(x) - 1)) {
-        for (j in (i + 1):ncol(x)) {
-            two_cols = x[, c(i, j)]
+    cor_out_mat = matrix(0, ncol = ncol(x), nrow = ncol(x))
+    
+    zero_indeces = which(colSums(x) == 0)
+    calced_indeces = setdiff(1:ncol(x), zero_indeces)
+
+    x_cl = x[, colSums(x) > 0]
+    
+    
+    ind <- c(1:ncol(x_cl))
+    corav <- matrix(NA, ncol(x_cl), ncol(x_cl))
+    corPvals <- matrix(NA, ncol(x_cl), ncol(x_cl))
+    for (i in 1:(ncol(x_cl) - 1)) {
+        for (j in (i + 1):ncol(x_cl)) {
+            two_cols = x_cl[, c(i, j)]
 
             corout = cor.test(two_cols[,1], two_cols[, 2], ...)
 
@@ -45,8 +53,11 @@ cor_sigs = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
     corav[lower.tri(corav)] <- t(corav)[lower.tri(corav)]
     diag(corav) <- 1
 
-    colnames(corav) = colnames(x)
-    rownames(corav) = colnames(x)
+
+    cor_out_mat[calced_indeces, calced_indeces] = corav
     
-    return(corav)
+    colnames(cor_out_mat) = colnames(x)
+    rownames(cor_out_mat) = colnames(x)
+    
+    return(cor_out_mat)
 }
