@@ -4,13 +4,15 @@
 \alias{cooccurrence}
 \title{Pairwise signature cooccurrences across samples}
 \usage{
-cooccurrence(x, p.val = 0.05, p.adjust = TRUE, ...)
+cooccurrence(x, p.val = 0.05, maxval = 10, p.adjust = TRUE, ...)
 }
 \arguments{
 \item{x}{Data.frame or a matrix of signature intensities(or counts).
 Signatures need to correspond to columns.}
 
 \item{p.val}{All the correlations with >=p.val are set to 0.}
+
+\item{maxval}{maximum value of the}
 
 \item{p.adjust}{If TRUE, p.value adjustment with BH correction is applied
 before setting correlations with p.value >= p.val to 0. default: TRUE}

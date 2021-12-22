@@ -11,13 +11,15 @@
 #' before setting correlations with p.value >= p.val to 0. default: TRUE
 #' @param ... arguments passed to cor.test
 #'
+#' @param maxval maximum value of the
+#'
 #' @return Signature cooccurrence matrix. Values correspond to Fisher's test
 #' odds ratios.
 #'
 #' @export
 
 
-cooccurrence = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
+cooccurrence = function(x, p.val = 0.05, maxval = 10, p.adjust = TRUE,  ...) {
 
     if (!is.matrix(x) & !is.data.frame(x)) 
         stop("x must be a matrix or data.frame")
@@ -35,14 +37,17 @@ cooccurrence = function(x, p.val = 0.05, p.adjust = TRUE,  ...) {
 
     for(i in 1:(ncol(cooc_matrix) - 1) ) {
         for(j in (i+1):ncol(cooc_matrix) ) {
-            occurrences = table(x[, c(i, j) ] ) + 1 
+            occurrences = table(x[, c(i, j) ] ) 
             if (sum(dim(occurrences)) < 4) next # pairs where one of the p(sig) == 1
             occ_test = fisher.test(occurrences)
             if (occ_test$p.value < p.val) {
 
                 pvals_matrix[i,j] = occ_test$p.value # saving for the adjustement
-
-                corr_status =  log(occ_test$estimate)
+                
+                corr_status =  log(occ_test$estimate) ##
+                if (is.infinite(corr_status)) {
+                    corr_status = sign(corr_status) * maxval
+                }
                 ## corr_status =  occ_test$estimate
 
                 cooc_matrix[i, j] = corr_status
