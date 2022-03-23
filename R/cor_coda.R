@@ -114,6 +114,9 @@ cor_coda = function(x,  p.val = 0.05, rand.add = FALSE,
     corZav[corPvals > p.val ] = 0
     corZav[lower.tri(corZav)] <- t(corZav)[lower.tri(corZav)]
     diag(corZav) <- 1
+
+    colnames(corZav) = colnames(x)
+    rownames(corZav) = colnames(x)
     
     return(corZav)
 }
