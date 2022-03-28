@@ -7,6 +7,6 @@ The package provides several functions to calculate mutational signature interac
 * `bcmi` - Bias-corrected Mutual Information from mpmi package
 * `cor_sigs` - Spearman or Pearson correlations 
 
-The package also provides a set of functions to produce summary interaction networks based.
+The package also provides a function to produce summary interaction networks based on calculated interaction metrics.
 
 Check  the documentation of function `plot_interaction_networks` to see how plotting works.
