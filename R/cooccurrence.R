@@ -11,7 +11,7 @@
 #' before setting correlations with p.value >= p.val to 0. default: TRUE
 #' @param ... arguments passed to cor.test
 #'
-#' @param maxval maximum value of the
+#' @param maxval The value to which Inf values will be converted to.
 #'
 #' @return Signature cooccurrence matrix. Values correspond to Fisher's test
 #' odds ratios.
