@@ -14,7 +14,7 @@ print_multi_graphs = function(tissue_graphs, layout = "kk", ... ) {
     gg = tissue_graphs %>% 
         ggraph(layout = layout, ...) +
         geom_edge_parallel2(aes(edge_colour = int_type, edge_linetype = method),
-                            width = 0.6, 
+                            width = 0.5, 
                             start_cap = circle(0), 
                             end_cap = circle(0), 
                             sep = unit(0.8, 'mm'))  +
