@@ -14,11 +14,14 @@ print_multi_graphs = function(tissue_graphs, layout = "kk", ... ) {
     gg = tissue_graphs %>% 
         ggraph(layout = layout, ...) +
         geom_edge_parallel2(aes(edge_colour = int_type, edge_linetype = method),
-                            width = 0.5, 
+                            width = 0.6, 
                             start_cap = circle(0), 
                             end_cap = circle(0), 
                             sep = unit(0.8, 'mm'))  +
-        scale_edge_color_manual(values = c("darkblue", "darkred", "black"), 
+        ## scale_edge_color_manual(values = c("darkblue", "darkred", "black"), 
+        ##                         limits = c("neg", "pos", "MI"),
+        ##                         labels = c("negative", "positive", "MI")) +
+        scale_edge_color_manual(values = c("dodgerblue3", "red3", "snow4"), 
                                 limits = c("neg", "pos", "MI"),
                                 labels = c("negative", "positive", "MI")) + 
         scale_edge_linetype_manual(
@@ -28,6 +31,9 @@ print_multi_graphs = function(tissue_graphs, layout = "kk", ... ) {
         ## geom_node_point(size = 10, color = "gray30") + 
         geom_node_label(aes(label = name)) + 
         guides(edge_color=guide_legend(title="Interaction type"),
-               edge_linetype = guide_legend(title = "Method"))
+               edge_linetype = guide_legend(title = "Method")) +
+        theme_graph(base_family = "Arial") +
+        theme(panel.background = element_rect(fill = "whitesmoke", color = NA))
+        
     return(gg)
 }
