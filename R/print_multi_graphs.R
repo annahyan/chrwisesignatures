@@ -32,7 +32,7 @@ print_multi_graphs = function(tissue_graphs, layout = "kk", ... ) {
         geom_node_label(aes(label = name)) + 
         guides(edge_color=guide_legend(title="Interaction type"),
                edge_linetype = guide_legend(title = "Method")) +
-        theme_graph(base_family = "Arial") +
+        theme_graph(base_family = "sans") +
         theme(panel.background = element_rect(fill = "whitesmoke", color = NA))
         
     return(gg)
