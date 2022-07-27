@@ -4,16 +4,16 @@
 \alias{minor_plot}
 \title{expands the panel with a given factor}
 \usage{
-minor_plot(ggout, title, expand.factor, expand.factor.y = NULL)
+minor_plot(ggout, expand.factor, expand.factor.y = NULL, title = NULL)
 }
 \arguments{
 \item{ggout}{Input ggplot file}
 
-\item{title}{Title of the output file}
-
 \item{expand.factor}{Expand the output with the given factor}
 
 \item{expand.factor.y}{Expand factor for the y axis if they are different}
+
+\item{title}{Title of the output file}
 }
 \description{
 expands the panel with a given factor

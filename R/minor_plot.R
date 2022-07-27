@@ -6,7 +6,7 @@
 #' 
 #' @export
 
-minor_plot = function(ggout, title, expand.factor, expand.factor.y = NULL) {
+minor_plot = function(ggout, expand.factor, expand.factor.y = NULL, title = NULL) {
     
     bb = ggplot_build(ggout)
     ylims = bb$layout$panel_scales_y[[1]]$range$range
@@ -22,8 +22,10 @@ minor_plot = function(ggout, title, expand.factor, expand.factor.y = NULL) {
     }else {
         ylims.out = c(ylims[1] - expand.factor * ywidth,  ylims[2] + expand.factor * ywidth)
     }
-    
-    pout = ggout + ggtitle(title) 
+
+    if (! is.null(title)) {
+        pout = ggout + ggtitle(title)
+    }
     if (! is.null(xlims) & ! is.null(ylims)) {
         pout = pout + 
             coord_cartesian(xlim = xlims.out, ylim = ylims.out)
