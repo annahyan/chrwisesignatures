@@ -25,7 +25,10 @@ minor_plot = function(ggout, expand.factor, expand.factor.y = NULL, title = NULL
 
     if (! is.null(title)) {
         pout = ggout + ggtitle(title)
+    } else {
+        pout = ggout
     }
+    
     if (! is.null(xlims) & ! is.null(ylims)) {
         pout = pout + 
             coord_cartesian(xlim = xlims.out, ylim = ylims.out)
