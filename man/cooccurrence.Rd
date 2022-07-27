@@ -12,7 +12,7 @@ Signatures need to correspond to columns.}
 
 \item{p.val}{All the correlations with >=p.val are set to 0.}
 
-\item{maxval}{maximum value of the}
+\item{maxval}{The value to which Inf values will be converted to.}
 
 \item{p.adjust}{If TRUE, p.value adjustment with BH correction is applied
 before setting correlations with p.value >= p.val to 0. default: TRUE}
