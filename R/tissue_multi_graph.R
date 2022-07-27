@@ -19,6 +19,7 @@
 #' graph_out = tissue_multi_graph(metrics_out)
 #'
 #' @import tidygraph
+#' @export
 #' 
 tissue_multi_graph = function(network_list, network_names = NULL) {
     
