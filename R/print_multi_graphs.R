@@ -6,7 +6,8 @@
 #' 
 #' @import ggraph
 #' @import igraph
-#' 
+#'
+#' @export
 
 print_multi_graphs = function(tissue_graphs, layout = "kk", ... ) {
     
