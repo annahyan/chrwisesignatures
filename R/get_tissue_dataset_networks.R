@@ -8,6 +8,7 @@
 #' set to 0. Default: NULL
 #' @return A list with interaction metric matrices. The list element names match
 #' those in the input network.lists.
+#' @export
 
 get_tissue_dataset_networks = function(tissue,
                                        network.lists, 
